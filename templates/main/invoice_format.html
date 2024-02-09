@@ -1,0 +1,67 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div id="invoice-details" class="container mt-5">
+    <h1>Bill Details:</h1>
+    <table class="table">
+        <tr>
+            <td><strong>Invoice Number:</strong></td>
+            <td>{{ invoice.id }}</td>
+        </tr>
+        <tr>
+            <td><strong>Invoice Date:</strong></td>
+            <td>{{ invoice.generated_on }}</td>
+        </tr>
+    </table>
+
+    <div><h2>Buyer</h2></div>
+    <table class="table">
+        <tr>
+            <td><strong>Name:</strong></td>
+            <td>{{ customer_name }}</td>
+        </tr>
+        <tr>
+            <td><strong>Address:</strong></td>
+            <td>{{ customer_address }}</td>
+        </tr>
+        <tr>
+            <td><strong>Phone:</strong></td>
+            <td>{{ customer_phone }}</td>
+        </tr>
+        <tr>
+            <td><strong>Email:</strong></td>
+            <td>{{ customer_email|default:"N/A" }}</td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <tr>
+            <th width="34%">Product</th>
+            <th width="30%">Quantity</th>
+            <th width="30%">Amount</th>
+        </tr>
+        <tr>
+            <td>{{ product_name }}</td>
+            <td>{{ quantity }}</td>
+            <td>{{ amount }}</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="text-right"><strong>Grand Total</strong></td>
+            <td>{{ amount }}</td>
+        </tr>
+    </table>
+</div>
+
+<button onclick="printInvoice('invoice-details')" class="btn btn-primary mt-3">Print Bill</button>
+
+<script type="text/javascript">
+    function printInvoice(elementId) {
+        var backupContent = document.body.innerHTML;
+        var invoiceContent = document.getElementById(elementId).innerHTML;
+        document.body.innerHTML = invoiceContent;
+        window.print();
+        document.body.innerHTML = backupContent;
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6">
+        <div class="card mt-3">
+            <div class="card-header">
+                <strong>{{ post.author.username }}</strong>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.description }}</p>
+                        <h4 class="card-text">{{ post.price }}</h4>
+                        <p class="card-text">Updated at: {{ post.updated_at|date:"D d M Y" }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        {% if post.img_url %}
+                        <img src="{{ post.img_url.url }}" class="img-fluid" alt="Product Image">
+                        {% else %}
+                        <p>No image available</p>
+                        {% endif %}
+                        <a href="{% url 'create_invoice' post.id %}" class="btn btn-primary">Buy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-md-12">
+        <p>No products available</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
