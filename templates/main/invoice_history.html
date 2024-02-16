@@ -5,12 +5,27 @@
 {% block content %}
 <h1>Invoice History</h1>
 {% if user_invoices %}
-    <ul>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Invoice ID</th>
+      <th scope="col">Product</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
     {% for invoice in user_invoices %}
-        <li>Invoice ID: {{ invoice.id }} - Product: {{ invoice.product.title }} - Quantity: {{ invoice.quantity }} - Total Price: {{ invoice.total_price }}</li>
+    <tr>
+      <td>{{ invoice.id }}</td>
+      <td>{{ invoice.product.title }}</td>
+      <td>{{ invoice.quantity }}</td>
+      <td>{{ invoice.total_price }}</td>
+    </tr>
     {% endfor %}
-    </ul>
+  </tbody>
+</table>
 {% else %}
-    <p>No invoice history found for {{ request.user.username }} .</p>
+<p>No invoice history found for {{ request.user.username }}.</p>
 {% endif %}
 {% endblock %}
