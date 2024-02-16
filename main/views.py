@@ -4,18 +4,16 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Product, Invoice
 from django.http import HttpResponse
+from django.http import JsonResponse
 import subprocess
 
-
-# Added auto deployment feature
 def autodeploy(request):
     # Execute the shell script for autodeployment
     try:
         subprocess.run(["/var/www/deploy.sh"], check=True)
-        return HttpResponse("Autodeploy script executed successfully.")
+        return JsonResponse({'message': 'Autodeploy script executed successfully.'})
     except subprocess.CalledProcessError as e:
-        return HttpResponse(f"Error executing autodeploy script: {e}", status=500)
-
+        return JsonResponse({'error': f'Error executing autodeploy script: {e}'}, status=500)
 
 @login_required(login_url='/login')
 def home(request):
