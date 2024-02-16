@@ -15,6 +15,7 @@ def autodeploy(request):
     except subprocess.CalledProcessError as e:
         return JsonResponse({'error': f'Error executing autodeploy script: {e}'}, status=500)
 
+
 @login_required(login_url='/login')
 def home(request):
     posts = Product.objects.all()
