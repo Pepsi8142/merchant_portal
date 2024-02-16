@@ -20,13 +20,13 @@
   <tbody>
     {% for invoice in user_invoices %}
     <tr>
-      <td>{{ invoice.id }}</td>
-      <td>{{ invoice.customer.name }}</td>
-      <td>{{ invoice.customer.phone }}</td>
-      <td>{{ invoice.product.title }}</td>
-      <td>{{ invoice.quantity }}</td>
-      <td>{{ invoice.total_price }}</td>
-      <td>{{ invoice.generated_on }}</td>
+        <td>{{ invoice.id }}</td>
+        <td>{{ invoice.generated_on }}</td>
+        <td>{{ invoice.customer.name }}</td>
+        <td>{{ invoice.customer.phone }}</td>
+        <td>{{ invoice.product.title }}</td>
+        <td>{{ invoice.quantity }}</td>
+        <td>{{ invoice.total_price }}</td>
     </tr>
     {% endfor %}
   </tbody>
