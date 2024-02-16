@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-e-(!7#szl=#%&p1w*rzh3mzkj!uk9b8zi-&b(3mdl_ux_6jgc0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'invoice.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
+        'NAME': 'merchant_erp',
+        'USER': 'merchant_erp',
+        'PASSWORD': '@rae_2k87%_ew',
         'HOST': 'localhost',
         'PORT': '5432',
     }
