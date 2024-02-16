@@ -9,18 +9,24 @@
   <thead>
     <tr>
       <th scope="col">Invoice ID</th>
+      <th scope="col">Customer Name</th>
+      <th scope="col">Customer Contact</th>
       <th scope="col">Product</th>
       <th scope="col">Quantity</th>
       <th scope="col">Total Price</th>
+      <th scope="col">Invoice Date</th>
     </tr>
   </thead>
   <tbody>
     {% for invoice in user_invoices %}
     <tr>
       <td>{{ invoice.id }}</td>
+      <td>{{ invoice.customer.name }}</td>
+      <td>{{ invoice.customer.phone }}</td>
       <td>{{ invoice.product.title }}</td>
       <td>{{ invoice.quantity }}</td>
       <td>{{ invoice.total_price }}</td>
+      <td>{{ invoice.generated_on }}</td>
     </tr>
     {% endfor %}
   </tbody>
