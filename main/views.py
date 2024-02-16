@@ -70,7 +70,7 @@ def view_invoice(request, invoice_id):
 
 @login_required(login_url='/login')
 def view_history(request):
-    user_invoices = Invoice.objects.filter(seller=request.user)
+    user_invoices = Invoice.objects.filter(seller=request.user).order_by('-generated_on')
     return render(request, 'main/invoice_history.html', {'user_invoices': user_invoices})
 
 
