@@ -6,6 +6,8 @@ from .models import Product, Invoice
 from django.http import HttpResponse
 import subprocess
 
+
+# Added auto deployment feature
 def autodeploy(request):
     # Execute the shell script for autodeployment
     try:
