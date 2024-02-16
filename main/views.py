@@ -34,7 +34,7 @@ def create_invoice(request, product_id):
     if request.method == 'POST':
         form = InvoiceForm(request.POST)
         if form.is_valid():
-            invoice = form.save(product_id=product_id)
+            invoice = form.save(product_id=product_id, seller=request.user)
             return redirect('view_invoice', invoice_id=invoice.id)
     else:
         form = InvoiceForm()
@@ -66,6 +66,12 @@ def view_invoice(request, invoice_id):
     }
 
     return render(request, 'main/invoice_format.html', context)
+
+
+@login_required(login_url='/login')
+def view_history(request):
+    user_invoices = Invoice.objects.filter(seller=request.user)
+    return render(request, 'main/invoice_history.html', {'user_invoices': user_invoices})
 
 
 def sign_up(request):

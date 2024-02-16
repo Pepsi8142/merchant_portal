@@ -29,7 +29,7 @@ class InvoiceForm(forms.ModelForm):
         model = Invoice
         fields = ['customer_name', 'customer_address', 'customer_phone', 'customer_email', 'quantity']
 
-    def save(self, product_id=None, commit=True):
+    def save(self, product_id=None, seller=None, commit=True):
         customer_name = self.cleaned_data.get('customer_name')
         customer_address = self.cleaned_data.get('customer_address')
         customer_phone = self.cleaned_data.get('customer_phone')
@@ -49,6 +49,7 @@ class InvoiceForm(forms.ModelForm):
         total_price = product.price * quantity  # Calculate the total price
 
         invoice = Invoice(
+            seller=seller,
             customer=customer,
             product=product,
             quantity=quantity,

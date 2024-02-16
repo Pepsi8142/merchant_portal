@@ -29,6 +29,7 @@ class Customer(models.Model):
 
 
 class Invoice(models.Model):
+    seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField()
