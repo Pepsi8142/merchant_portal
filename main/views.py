@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterForm, ProductForm, InvoiceForm
+from .forms import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .models import Product, Invoice
+from .models import *
 from django.http import HttpResponse
 from django.http import JsonResponse
 import subprocess
+from django.forms import formset_factory
+from django.contrib import messages
+
 
 def autodeploy(request):
     # Execute the shell script for autodeployment
@@ -39,39 +42,132 @@ def create_post(request):
 
 
 @login_required(login_url='/login')
-def create_invoice(request, product_id):
+def create_customer(request):
     if request.method == 'POST':
-        form = InvoiceForm(request.POST)
+        form = CustomerForm(request.POST)
         if form.is_valid():
-            invoice = form.save(product_id=product_id, seller=request.user)
+            name = form.cleaned_data['name']
+            address = form.cleaned_data['address']
+            phone = form.cleaned_data['phone']
+            email = form.cleaned_data['email']
+
+            existent_cus = Customer.objects.filter(
+                name=name,
+                address=address,
+                phone=phone,
+                email=email
+            ).first()
+
+            if existent_cus:
+                print('Customer already exists')
+                customer_id = existent_cus.id
+            else:
+                new_cus = form.save()
+                customer_id = new_cus.id
+
+            return redirect('create_invoice', customer_id=customer_id)
+    else:
+        form = CustomerForm()
+
+    return render(request, 'main/create_customer.html', {'form': form})
+
+
+@login_required(login_url='/login')
+def create_invoice(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    products = Product.objects.all()  # Retrieve all products from the database
+    InvoiceItemFormSet = formset_factory(InvoiceItemForm, extra=1)
+
+    if request.method == 'POST':
+        formset = InvoiceItemFormSet(request.POST)
+        if formset.is_valid():
+            # Get cart items from the session
+            cart = request.session.get('cart', {})
+
+            # Create the invoice
+            invoice = Invoice.objects.create(seller=request.user, customer=customer)
+
+            # Create invoice items from cart data and associate them with the invoice
+            invoice_items = []
+            for product_id, item in cart.items():
+                product = get_object_or_404(Product, id=product_id)
+                quantity = item['quantity']
+                invoice_item = InvoiceItem.objects.create(
+                    invoice=invoice,
+                    product=product,
+                    quantity=quantity
+                )
+                invoice_items.append(invoice_item)
+
+            # Update total price for the invoice
+            invoice.update_total_price()
+
+            # Clear cart session
+            request.session.pop('cart', None)
+
+            # Redirect to view_invoice with the newly created invoice's ID
             return redirect('view_invoice', invoice_id=invoice.id)
     else:
-        form = InvoiceForm()
+        formset = InvoiceItemFormSet()
 
-    return render(request, 'main/create_invoice.html', {'form': form})
+    request.session['customer_id'] = customer_id
+
+    return render(request, 'main/create_invoice.html', {'customer': customer, 'formset': formset, 'cart': request.session.get('cart', {}), 'products': products})
+
+
+@login_required(login_url='/login')
+def add_to_cart(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        if product_id is not None:
+            # print(f'Received product id: {product_id}')
+            quantity = int(request.POST.get('form-0-quantity', 1))
+
+            product = get_object_or_404(Product, id=product_id)
+
+            cart = request.session.get('cart', {})
+            if product_id in cart:
+                cart[product_id]['quantity'] += quantity
+                cart[product_id]['price'] += float(product.price)*quantity
+            else:
+                cart[product_id] = {'title': product.title, 'quantity': quantity, 'price': float(product.price)*quantity}
+
+            request.session['cart'] = cart
+        else:
+            print(f'Product id is None')
+
+    customer_id = request.session.get('customer_id')
+
+    return redirect('create_invoice', customer_id=customer_id)
 
 
 @login_required(login_url='/login')
 def view_invoice(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
+    # Get invoice details
+    invoice_number = invoice.id
+    invoice_date = invoice.generated_on
+    grand_total = invoice.total_price
+
+    # Get customer details
     customer_name = invoice.customer.name
     customer_address = invoice.customer.address
     customer_phone = invoice.customer.phone
     customer_email = invoice.customer.email
-    product_name = invoice.product.title
-    quantity = invoice.quantity
-    amount = invoice.total_price
+
+    # Get invoice items
+    invoice_items = invoice.invoiceitem_set.all()
 
     context = {
-        'invoice': invoice,
+        'invoice_number': invoice_number,
+        'invoice_date': invoice_date,
+        'grand_total': grand_total,
         'customer_name': customer_name,
         'customer_address': customer_address,
         'customer_phone': customer_phone,
         'customer_email': customer_email,
-        'product_name': product_name,
-        'quantity': quantity,
-        'amount': amount
+        'invoice_items': invoice_items,
     }
 
     return render(request, 'main/invoice_format.html', context)

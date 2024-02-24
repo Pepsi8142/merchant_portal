@@ -6,11 +6,11 @@
     <table class="table">
         <tr>
             <td><strong>Invoice Number:</strong></td>
-            <td>{{ invoice.id }}</td>
+            <td>{{ invoice_number }}</td>
         </tr>
         <tr>
             <td><strong>Invoice Date:</strong></td>
-            <td>{{ invoice.generated_on }}</td>
+            <td>{{ invoice_date }}</td>
         </tr>
     </table>
 
@@ -40,14 +40,16 @@
             <th width="30%">Quantity</th>
             <th width="30%">Amount</th>
         </tr>
+        {% for item in invoice_items %}
         <tr>
-            <td>{{ product_name }}</td>
-            <td>{{ quantity }}</td>
-            <td>{{ amount }}</td>
+            <td>{{ item.product.title }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total_price }}</td>
         </tr>
+        {% endfor %}
         <tr>
             <td colspan="2" class="text-right"><strong>Grand Total</strong></td>
-            <td>{{ amount }}</td>
+            <td>{{ grand_total }}</td>
         </tr>
     </table>
 </div>

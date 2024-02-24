@@ -1,10 +1,70 @@
 {% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create Invoice{% endblock %}
 
 {% block content %}
-  <h2>Create Invoice</h2>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-  </form>
+    <h2>Create Invoice</h2>
+    <h5>Customer Information</h5>
+    <p><strong>Name:</strong> {{ customer.name }}</p>
+    <p><strong>Address:</strong> {{ customer.address }}</p>
+    <p><strong>Phone:</strong> {{ customer.phone }}</p>
+    <p><strong>Email:</strong> {{ customer.email }}</p>
+    <p><strong>Joined:</strong> {{ customer.created_at }}</p>
+
+    <h5>Add Products to Cart</h5>
+    <form method="post" action="{% url 'add_to_cart' %}">
+        {% csrf_token %}
+        <input type="hidden" name="customer_id" value="{{ customer.id }}">
+        <table>
+            {{ formset.management_form }}
+            {% for form in formset %}
+            <tr>
+                <td>
+                    <select name="form-{{ forloop.counter0 }}-product" id="id_form-{{ forloop.counter0 }}-product" onchange="updateProductId(this)">
+                    <option value="" selected>--- Please select a product ---</option>
+                    {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.title }}</option>
+                    {% endfor %}
+                </select>
+                </td>
+                <td>{{ form.quantity }}</td>
+                <td><input type="hidden" name="product_id" id="id_product_id" value=""></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">Add to Cart</button>
+        <button type="submit" formaction="{% url 'create_invoice' customer_id=customer.id %}">Create Invoice</button>
+    </form>
+
+    <h5>Added Items: </h5>
+    {% if cart %}
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            {% for product_id, item in cart.items %}
+            <tr>
+                <td>{{ item.title }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No Items Added</p>
+    {% endif %}
+
+<script>
+    function updateProductId(selectElement) {
+        // Get the selected option value (product ID)
+        var productId = selectElement.value;
+
+        // Update the value of the hidden product_id input field
+        document.getElementById('id_product_id').value = productId;
+    }
+</script>
+
 {% endblock %}
