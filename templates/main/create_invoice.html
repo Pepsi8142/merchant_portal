@@ -21,14 +21,14 @@
             {% for form in formset %}
             <tr>
                 <td>
-                    <select name="form-{{ forloop.counter0 }}-product" id="id_form-{{ forloop.counter0 }}-product" onchange="updateProductId(this)">
+                    <select name="form-{{ forloop.counter0 }}-product" id="id_form-{{ forloop.counter0 }}-product" class="form-select" onchange="updateProductId(this)">
                     <option value="" selected>--- Please select a product ---</option>
-                    {% for product in products %}
-                        <option value="{{ product.id }}">{{ product.title }}</option>
-                    {% endfor %}
-                </select>
+                        {% for product in products %}
+                            <option value="{{ product.id }}">{{ product.title }}</option>
+                        {% endfor %}
+                    </select>
                 </td>
-                <td>{{ form.quantity }}</td>
+                <td>{{ form.quantity|as_crispy_field }}</td>
                 <td><input type="hidden" name="product_id" id="id_product_id" value=""></td>
             </tr>
             {% endfor %}
