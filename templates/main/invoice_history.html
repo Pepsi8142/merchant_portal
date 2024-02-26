@@ -20,14 +20,19 @@
   <tbody>
     {% for invoice in user_invoices %}
     <tr>
-        <td>{{ invoice.id }}</td>
-        <td>{{ invoice.generated_on }}</td>
-        <td>{{ invoice.customer.name }}</td>
-        <td>{{ invoice.customer.phone }}</td>
-        <td>{{ invoice.product.title }}</td>
-        <td>{{ invoice.quantity }}</td>
-        <td>{{ invoice.total_price }}</td>
+        <td rowspan="{{ invoice.invoiceitem_set.count }}">{{ invoice.id }}</td>
+        <td rowspan="{{ invoice.invoiceitem_set.count }}">{{ invoice.generated_on }}</td>
+        <td rowspan="{{ invoice.invoiceitem_set.count }}">{{ invoice.customer.name }}</td>
+        <td rowspan="{{ invoice.invoiceitem_set.count }}">{{ invoice.customer.phone }}</td>
+        {% for item in invoice.invoiceitem_set.all %}
+        <td>{{ item.product.title }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.total_price }}</td>
     </tr>
+    {% if not forloop.last %}
+    <tr>
+    {% endif %}
+        {% endfor %}
     {% endfor %}
   </tbody>
 </table>
