@@ -84,6 +84,10 @@ def create_invoice(request, customer_id):
             # Get cart items from the session
             cart = request.session.get('cart', {})
 
+            if not cart:
+                messages.error(request, 'Cannot create invoice. Your cart is empty.')
+                return redirect('create_invoice', customer_id=customer_id)
+
             # Create the invoice
             invoice = Invoice.objects.create(seller=request.user, customer=customer)
 
