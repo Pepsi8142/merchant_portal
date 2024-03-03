@@ -8,6 +8,8 @@ from django.http import JsonResponse
 import subprocess
 from django.forms import formset_factory
 from django.contrib import messages
+from django.db.models import Sum, Value
+from django.db.models.functions import Concat
 
 
 def autodeploy(request):
@@ -179,7 +181,17 @@ def view_invoice(request, invoice_id):
 
 @login_required(login_url='/login')
 def view_history(request):
-    user_invoices = Invoice.objects.filter(seller=request.user).order_by('-id')
+    user_invoices = Invoice.objects.filter(seller=request.user).annotate(
+        total_quantity=Sum('invoiceitem__quantity'),
+        total_price_sum=Sum('invoiceitem__total_price'),
+    ).order_by('-id')
+
+    for invoice in user_invoices:
+        # Fetch all product titles for this invoice
+        product_titles = [item.product.title for item in invoice.invoiceitem_set.all()]
+        # Concatenate the product titles
+        invoice.item_names = ', '.join(product_titles)
+
     return render(request, 'main/invoice_history.html', {'user_invoices': user_invoices})
 
 

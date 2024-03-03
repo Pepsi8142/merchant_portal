@@ -6,10 +6,11 @@ from .models import *
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    shop_name = forms.CharField(max_length=100, required=True)
 
     class Meta:
         model = User
-        fields = ["username", "email", "password1", "password2"]
+        fields = ["username", "email", "shop_name", "password1", "password2"]
 
 
 class ProductForm(forms.ModelForm):
