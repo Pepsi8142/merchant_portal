@@ -12,10 +12,11 @@
 <body>
     <div class="container-fluid">
         <header>
-            {% include 'main/header.html' %}
+            {% include 'main/sidebar.html' %}
+            {% include 'main/topbar.html' %}
         </header>
 
-        <main>
+        <main class="main_content">
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}

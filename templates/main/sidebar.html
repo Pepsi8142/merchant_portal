@@ -1,0 +1,23 @@
+<!-- Sidebar -->
+{% if user.is_authenticated %}
+<div class="sidebar">
+    <div class="co_name">
+       <h3>MangoIT</h3>
+    </div>
+    <ul class="navbar-nav flex-column nav_menu">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'create_post' %}">Create Post</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'create_customer' %}">Sell Item</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'invoice_history' %}">অর্ডার তালিকা</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+

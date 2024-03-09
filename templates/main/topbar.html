@@ -1,0 +1,21 @@
+<!-- Top bar -->
+<div class="top_bar">
+    <div class="usr_name">
+    {% if user.is_authenticated %}
+        <h4> স্বাগতম, {{ user.username }} </h4>
+    {% endif %}
+    </div>
+    <div class="usr_controls">
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">বের হন</button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <button type="submit">প্রবেশ করুন</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
