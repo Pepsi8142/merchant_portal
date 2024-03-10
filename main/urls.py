@@ -12,4 +12,6 @@ urlpatterns = [
     path('add-to-cart', views.add_to_cart, name='add_to_cart'),
     path('view-invoice/<int:invoice_id>', views.view_invoice, name='view_invoice'),
     path('invoice-history/', views.view_history, name='invoice_history'),
+    path('customer-list/', views.view_customer, name='customer_list'),
+    path('supplier-list/', views.view_supplier, name='supplier_list')
 ]

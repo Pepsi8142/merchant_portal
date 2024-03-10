@@ -22,7 +22,11 @@ class ProductForm(forms.ModelForm):
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['name', 'address', 'phone', 'email']
+        fields = ['name', 'phone', 'email', 'birth_date', 'img_url']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['img_url'].required = False
 
 
 class InvoiceItemForm(forms.Form):

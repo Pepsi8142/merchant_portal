@@ -2,15 +2,15 @@
 {% block title %}Invoice History{% endblock %}
 
 {% block content %}
-<h1>Transaction History</h1>
+<h1>অর্ডার তালিকা</h1>
 {% if user_invoices %}
 <table class="table">
   <thead>
     <tr>
-        <th scope="col">Invoice ID</th>
-        <th scope="col">Invoice Date</th>
-        <th scope="col">Customer Name</th>
-        <th scope="col">Customer Contact</th>
+        <th scope="col">অর্ডার নং</th>
+        <th scope="col">অর্ডারের তারিখ</th>
+        <th scope="col">কাস্টমারের নাম</th>
+        <th scope="col">মোবাইল নম্বর</th>
         <th scope="col">Total Quantity</th>
         <th scope="col">Total Price</th>
         <th scope="col">Items Bought</th>

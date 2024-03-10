@@ -19,9 +19,23 @@ class Product(models.Model):
 
 class Customer(models.Model):
     name = models.CharField(max_length=50)
-    address = models.CharField(max_length=150)
-    phone = models.CharField(max_length=13) # only mandatory
+    phone = models.CharField(max_length=13, unique=True) # only mandatory
     email = models.EmailField(blank=True, null=True)  # Optional email field
+    birth_date = models.DateField(blank=True, null=True)
+    img_url = models.ImageField(upload_to='customers/', null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class Supplier(models.Model):
+    name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=13, unique=True) # only mandatory
+    email = models.EmailField(blank=True, null=True)  # Optional email field
+    birth_date = models.DateField(blank=True, null=True)
+    img_url = models.ImageField(upload_to='suppliers/', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 

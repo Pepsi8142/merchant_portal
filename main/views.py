@@ -49,22 +49,20 @@ def create_customer(request):
         form = CustomerForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            address = form.cleaned_data['address']
             phone = form.cleaned_data['phone']
-            email = form.cleaned_data['email']
 
             existent_cus = Customer.objects.filter(
                 name=name,
-                address=address,
-                phone=phone,
-                email=email
+                phone=phone
             ).first()
 
             if existent_cus:
                 print('Customer already exists')
                 customer_id = existent_cus.id
             else:
-                new_cus = form.save()
+                new_cus = form.save(commit=False)
+                new_cus.created_by = request.user
+                new_cus.save()
                 customer_id = new_cus.id
 
             return redirect('create_invoice', customer_id=customer_id)
@@ -193,6 +191,22 @@ def view_history(request):
         invoice.item_names = ', '.join(product_titles)
 
     return render(request, 'main/invoice_history.html', {'user_invoices': user_invoices})
+
+
+@login_required(login_url='/login')
+def view_customer(request):
+    cur_usr = request.user
+
+    customers = Customer.objects.filter(created_by=cur_usr).values('id', 'created_at', 'name', 'phone', 'email', 'birth_date')
+    return render(request, 'main/customer_list.html', {'customers': customers})
+
+
+@login_required(login_url='/login')
+def view_supplier(request):
+    cur_usr = request.user
+
+    supplier = Supplier.objects.filter(created_by=cur_usr).values('id', 'created_at', 'name', 'phone', 'email', 'birth_date')
+    return render(request, 'main/supplier_list.html', {'suppliers': supplier})
 
 
 def sign_up(request):
