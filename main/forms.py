@@ -29,6 +29,16 @@ class CustomerForm(forms.ModelForm):
         self.fields['img_url'].required = False
 
 
+class SupplierForm(forms.ModelForm):
+    class Meta:
+        model = Supplier
+        fields = ['name', 'phone', 'email', 'birth_date', 'img_url']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['img_url'].required = False
+
+
 class InvoiceItemForm(forms.Form):
     product = forms.ModelChoiceField(queryset=Product.objects.all(), empty_label="--- Please select a product ---")
     quantity = forms.IntegerField(min_value=1, initial=1)

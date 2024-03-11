@@ -3,6 +3,7 @@
 
 {% block content %}
 <h1>আমার সাপ্লাইয়ার</h1>
+<button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_supplier' %}'">সাপ্লাইয়ার যোগ করুন</button>
 {% if suppliers %}
 <table class="table">
   <thead>

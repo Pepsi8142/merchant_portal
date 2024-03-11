@@ -202,11 +202,26 @@ def view_customer(request):
 
 
 @login_required(login_url='/login')
-def view_supplier(request):
+def view_suppliers(request):
     cur_usr = request.user
 
     supplier = Supplier.objects.filter(created_by=cur_usr).values('id', 'created_at', 'name', 'phone', 'email', 'birth_date')
     return render(request, 'main/supplier_list.html', {'suppliers': supplier})
+
+
+@login_required(login_url='/login')
+def create_supplier(request):
+    if request.method == 'POST':
+        form = SupplierForm(request.POST, request.FILES)
+        if form.is_valid():
+            supplier = form.save(commit=False)
+            supplier.created_by = request.user
+            supplier.save()
+            return redirect('view_suppliers')
+    else:
+        form = SupplierForm()
+
+    return render(request, 'main/create_supplier.html', {'form': form})
 
 
 def sign_up(request):
