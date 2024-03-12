@@ -20,6 +20,7 @@ body {
 }
 
 .co_name {
+    margin-top: 0;
     padding: 0.25rem;
     background-color: white;
     text-align: center;
@@ -49,11 +50,6 @@ body {
   color: #f1f1f1;
 }
 
-* Add an active class to the active dropdown button */
-.active {
-  background-color: green;
-  color: white;
-}
 
 /* Style the sidenav links and the dropdown button */
 .sidebar a, .dropdown-btn {
@@ -70,10 +66,24 @@ body {
   outline: none;
 }
 
+/* Main content */
+.main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+  font-size: 20px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: green;
+  color: white;
+}
+
 /* On mouse-over */
 .sidebar a:hover, .dropdown-btn:hover {
   color: #f1f1f1;
 }
+
 
 /* Optional: Style the caret down icon */
 .fa-caret-down {
@@ -100,8 +110,6 @@ body {
 .navbar-nav .nav-item a:hover {
   color: #f1f1f1; /* Change hover color as desired */
 }
-
-
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
@@ -147,3 +155,9 @@ body {
 }
 
 /* top bar css */
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
