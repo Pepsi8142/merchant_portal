@@ -1,29 +1,66 @@
 <!-- Sidebar -->
 {% if user.is_authenticated %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="sidebar">
     <div class="co_name">
        <h3>MangoIT</h3>
     </div>
+    <div class="navbar-nav">
     <ul class="navbar-nav flex-column nav_menu">
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          <button class="dropdown-btn">আমার কানেকশন
+                <i class="fa fa-caret-down"></i>
+          </button>
+            <div class="dropdown-container">
+                <a class="nav-link" href="#">কাস্টমার তালিকা</a>
+                <a class="nav-link" href="#">সাপ্লাইয়ার তালিকা</a>
+            </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'create_post' %}">Create Post</a>
+            <a class="nav-link" href="{% url 'home' %}">ড্যাশবোর্ড</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'create_customer' %}">Sell Item</a>
+            <a class="nav-link" href="{% url 'home' %}">আমার পণ্য</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">অর্ডার গ্রহণ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">অর্ডার গ্রহণ</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'invoice_history' %}">অর্ডার তালিকা</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'customer_list' %}">কাস্টমার তালিকা</a>
+            <a class="nav-link" href="{% url 'create_post' %}">আমার স্টক</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_suppliers' %}">সাপ্লাইয়ার তালিকা</a>
+            <a class="nav-link" href="{% url 'create_post' %}">বাকির হিসাব</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'create_customer' %}">দোকানের খরচ</a>
+        </li>
+
     </ul>
+    </div>
+    <script>
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
+      });
+    }
+    </script>
 </div>
 {% endif %}
 

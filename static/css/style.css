@@ -1,47 +1,15 @@
 body {
+    font-family: "Lato", sans-serif;
     display: flex;
     height: 100%;
 }
 
 .main_content {
-    width: 90%;
-    margin-left: 10%;
+    width: 100%;
+    margin-left: 15%;
 }
-
-/* side bar css */
-
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 10%;
-    background-color: #333;
-    color: white;
-    padding: 0.25rem;
-}
-
-.co_name {
-    background-color: white;
-    padding: 0.10rem;
-    text-align: left;
-    color: black;
-}
-
-.co_name h1 {
-    margin-top: 0;
-    color: black;
-}
-
-.nav_menu li {
-    padding: 0.25rem 0.5rem;
-    border: 0.0625rem solid white;
-}
-
-/* side bar css */
 
 /* top bar css */
-
 .top_bar {
     margin-top: 0;
     display: flex;
@@ -51,6 +19,104 @@ body {
     background-color: #333;
 }
 
+.co_name {
+    padding: 0.25rem;
+    background-color: white;
+    text-align: center;
+    color: black;
+}
+
+.co_name h1 {
+    margin-top: 0;
+    color: black;
+}
+
+/* side bar css */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13%;
+    background-color: #333;
+    #color: white;
+    color: #818181;
+    padding: 0.00rem;
+}
+
+/* On mouse-over */
+.sidebar a:hover{
+  color: #f1f1f1;
+}
+
+* Add an active class to the active dropdown button */
+.active {
+  background-color: green;
+  color: white;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidebar a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.sidebar a:hover, .dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+.navbar-nav {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.navbar-nav .nav-item {
+  margin-bottom: 0; /* Adjust as needed */
+}
+
+.navbar-nav .nav-item a {
+  text-decoration: none;
+  color: #818181; /* Change color as desired */
+#  font-weight: bold; /* Adjust font weight as needed */
+}
+
+.navbar-nav .nav-item a:hover {
+  color: #f1f1f1; /* Change hover color as desired */
+}
+
+
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+.nav_menu li {
+    padding: 0.25rem 0.5rem;
+#    border: 0.0625rem solid white;
+    border: 0.0625rem;
+}
+
+/* side bar css */
 .usr_name {
 /*    font-size: 5rem; */
     color: #fff;
@@ -76,6 +142,8 @@ body {
 
 .usr_controls button:hover {
     background-color: #e2e2e2;
+    /* On mouse-over */
+    color: #f1f1f1;
 }
 
 /* top bar css */
