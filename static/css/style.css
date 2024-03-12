@@ -5,6 +5,7 @@ body {
 }
 
 .main_content {
+    margin-top: 2.0rem;
     width: 100%;
     margin-left: 15%;
 }
