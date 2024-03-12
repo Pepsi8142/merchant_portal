@@ -46,9 +46,15 @@ body {
     padding: 0.00rem;
 }
 
+
 /* On mouse-over */
 .sidebar a:hover{
   color: #f1f1f1;
+}
+
+.active {
+  background-color: green;
+  color: white;
 }
 
 
