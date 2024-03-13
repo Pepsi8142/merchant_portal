@@ -29,6 +29,13 @@ def home(request):
 
 
 @login_required(login_url='/login')
+def myproducts(request):
+    posts = Product.objects.all()
+
+    return render(request, 'main/myproducts.html', {"posts": posts})
+
+
+@login_required(login_url='/login')
 def create_post(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
