@@ -12,14 +12,13 @@ from django.db.models import Sum, Value
 from django.db.models.functions import Concat
 
 
-def autodeploy(request):
-    # Execute the shell script for autodeployment
-    try:
-        subprocess.run(["/var/www/deploy.sh"], check=True)
-        return JsonResponse({'message': 'Autodeploy script executed successfully.'})
-    except subprocess.CalledProcessError as e:
-        return JsonResponse({'error': f'Error executing autodeploy script: {e}'}, status=500)
-
+# def autodeploy(request):
+#     # Execute the shell script for autodeployment
+#     try:
+#         subprocess.run(["/var/www/deploy.sh"], check=True)
+#         return JsonResponse({'message': 'Autodeploy script executed successfully.'})
+#     except subprocess.CalledProcessError as e:
+#         return JsonResponse({'error': f'Error executing autodeploy script: {e}'}, status=500)
 
 @login_required(login_url='/login')
 def home(request):

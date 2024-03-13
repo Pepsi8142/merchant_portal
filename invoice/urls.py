@@ -22,7 +22,6 @@ from django.contrib.auth import views as auth_views
 from main import views
 
 urlpatterns = [
-    path('deploy/', views.autodeploy, name='autodeploy'),
     path('', include('main.urls')),
     path('', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
