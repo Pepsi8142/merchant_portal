@@ -4,10 +4,10 @@ from . import views
 # name needs to be same as in views function redirect
 
 urlpatterns = [
+    path('sign-up', views.sign_up, name='sign_up'),
     path('', views.home, name='home'),
     path('home', views.home, name='home'),
     path('myproducts', views.myproducts, name='myproducts'),
-    path('sign-up', views.sign_up, name='sign_up'),
     path('create-post', views.create_post, name='create_post'),
     path('create-customer', views.create_customer, name='create_customer'),
     path('create-invoice/<int:customer_id>', views.create_invoice, name='create_invoice'),
