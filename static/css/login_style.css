@@ -1,7 +1,7 @@
-/* set entire body that is webpage */
+/* set entire body that is webpage (padding-top: 25vh)  */
 body{
 	background: #383a3d;
-	padding-top: 25vh;
+	padding-top: 10rem;
 }
 /* set form background colour*/
 form{
@@ -10,5 +10,5 @@ form{
 /* set padding and size of th form */
 .form-container{
 	border-radius: 10px;
-	padding: 30px;
+	padding: 20px;
 }
