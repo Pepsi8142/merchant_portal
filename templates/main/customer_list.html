@@ -3,6 +3,7 @@
 
 {% block content %}
 <h1>আমার কাস্টমার</h1>
+<button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_customer' %}'">কাস্টমার যোগ করুন</button>
 {% if customers %}
 <table class="table">
   <thead>

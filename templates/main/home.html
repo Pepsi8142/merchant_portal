@@ -31,7 +31,7 @@
     </div>
     {% empty %}
     <div class="col-md-12">
-        <p>No products available</p>
+        <p>{{ request.user.username }}, আপনার কোনো পণ্য পাওয়া যায়নি।</p>
     </div>
     {% endfor %}
 </div>

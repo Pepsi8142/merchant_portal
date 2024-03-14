@@ -31,6 +31,6 @@
   </tbody>
 </table>
 {% else %}
-<p>No invoice history found for {{ request.user.username }}.</p>
+<p>{{ request.user.username }}, আপনার কোনো অর্ডার পাওয়া যায়নি।</p>
 {% endif %}
 {% endblock %}
