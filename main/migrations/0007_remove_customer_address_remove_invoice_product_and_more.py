@@ -21,10 +21,10 @@ class Migration(migrations.Migration):
         #     model_name='invoice',
         #     name='product',
         # ),
-        migrations.RemoveField(
-            model_name='invoice',
-            name='quantity',
-        ),
+        # migrations.RemoveField(
+        #     model_name='invoice',
+        #     name='quantity',
+        # ),
         migrations.AddField(
             model_name='customer',
             name='birth_date',
