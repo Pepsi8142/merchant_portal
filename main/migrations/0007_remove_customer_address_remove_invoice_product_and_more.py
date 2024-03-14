@@ -13,10 +13,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='customer',
-            name='address',
-        ),
+        # migrations.RemoveField(
+        #     model_name='customer',
+        #     name='address',
+        # ),
         migrations.RemoveField(
             model_name='invoice',
             name='product',
