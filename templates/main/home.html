@@ -3,36 +3,5 @@
 {% block title %}ড্যাশবোর্ড{%endblock %}
 
 {% block content %}
-<div class="row">
-    {% for post in posts %}
-    <div class="col-md-3">
-        <div class="card mt-3">
-            <div class="card-header">
-                <strong>{{ post.author.username }}</strong>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h5 class="card-title">{{ post.title }}</h5>
-                        <p class="card-text">{{ post.description }}</p>
-                        <h4 class="card-text">{{ post.price }} টাকা</h4>
-                        <p class="card-text">Updated at: {{ post.updated_at|date:"D d M Y" }}</p>
-                    </div>
-                    <div class="col-md-4">
-                        {% if post.img_url %}
-                        <img src="{{ post.img_url.url }}" class="img-fluid" alt="Product Image">
-                        {% else %}
-                        <p>No image available</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% empty %}
-    <div class="col-md-12">
-        <p>{{ request.user.username }}, আপনার কোনো পণ্য পাওয়া যায়নি।</p>
-    </div>
-    {% endfor %}
-</div>
+<h1>This will be the dashboard</h1>
 {% endblock %}

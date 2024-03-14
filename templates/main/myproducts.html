@@ -4,26 +4,25 @@
 
 {% block content %}
 <div class="col-md-12">
-    <h1>নিজের পণ্য যোগ করুন</h1>
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_product' %}'">পণ্য যোগ করুন</button>
 </div>
 <div class="row">
-    {% for post in posts %}
+    {% for product in products %}
     <div class="col-md-3">
         <div class="card mt-3">
             <div class="card-header">
-                <strong>{{ post.author.username }}</strong>
+                <strong>{{ product.title }}</strong>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <h5 class="card-title">{{ post.title }}</h5>
-                        <p class="card-text">{{ post.description }}</p>
-                        <h4 class="card-text">{{ post.price }} টাকা</h4>
-                        <p class="card-text">Updated at: {{ post.updated_at|date:"D d M Y" }}</p>
+                        <p class="card-text">{{ product.description }}</p>
+                        <h4 class="card-text">{{ product.price }} টাকা</h4>
+                        <p class="card-text">Updated at: {{ product.updated_at|date:"D d M Y" }}</p>
                     </div>
                     <div class="col-md-4">
-                        {% if post.img_url %}
-                        <img src="{{ post.img_url.url }}" class="img-fluid" alt="Product Image">
+                        {% if product.img_url %}
+                        <img src="{{ product.img_url.url }}" class="img-fluid" alt="Product Image">
                         {% else %}
                         <p>No image available</p>
                         {% endif %}

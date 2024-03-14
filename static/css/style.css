@@ -250,3 +250,15 @@ body {
     background-color: #888;
 }
 
+.card {
+    height: 100%; /* Ensure each card occupies the full height of its parent container */
+}
+
+.card-body {
+    height: 100%; /* Ensure the body of each card occupies the full height of the card */
+}
+
+.card-img-top {
+    object-fit: cover; /* Ensure the image fills the entire space of its container without stretching */
+}
+

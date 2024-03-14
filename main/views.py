@@ -22,27 +22,27 @@ from django.db.models.functions import Concat
 
 @login_required(login_url='/login')
 def home(request):
-    posts = Product.objects.all()
-
-    return render(request, 'main/home.html', {"posts": posts})
+    return render(request, 'main/home.html')
 
 
 @login_required(login_url='/login')
-def myproducts(request):
-    posts = Product.objects.all()
+def view_products(request):
+    cur_usr = request.user
 
-    return render(request, 'main/myproducts.html', {"posts": posts})
+    products = Product.objects.filter(created_by=cur_usr)
+
+    return render(request, 'main/myproducts.html', {"products": products})
 
 
 @login_required(login_url='/login')
-def create_post(request):
+def create_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect("/home")
+            product = form.save(commit=False)
+            product.created_by = request.user
+            product.save()
+            return redirect("/view_products")
     else:
         form = ProductForm()
 
