@@ -3,9 +3,34 @@
 {% block title %}আমার পণ্য{%endblock %}
 
 {% block content %}
-<div class="col-md-12">
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_product' %}'">পণ্য যোগ করুন</button>
-</div>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+.btn {
+  border: none;
+  background-color: inherit;
+  padding: 5px 5px;
+  ont-size:36px
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: #eee;
+  color: green;
+  }
+
+.success {color: black;}
+.info {color: dodgerblue;}
+.warning {color: orange;}
+.danger {color: red;}
+</style>
+
+<h1><button class="btn success" onclick="window.location.href='{% url 'create_product' %}'" style="font-size:38px;">আমার কাস্টমার <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
+
+<!--<div class="col-md-12">-->
+<!--    <button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_product' %}'">পণ্য যোগ করুন</button>-->
+<!--</div>-->
 <div class="row">
     {% for product in products %}
     <div class="col-md-3">
