@@ -40,7 +40,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    stock_count = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    stock_count = models.PositiveIntegerField(validators=[MinValueValidator(1)], null=True)
     is_cash = models.BooleanField(default=False)
     supplier_id = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True)
 

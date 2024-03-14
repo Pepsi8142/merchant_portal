@@ -60,6 +60,11 @@ class Migration(migrations.Migration):
             name='author',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
+        # migrations.AlterField(
+        #     model_name='product',
+        #     name='buying_price',
+        #     field=models.DecimalField(null=True, decimal_places=2, max_digits=10),
+        # ),
         # migrations.CreateModel(
         #     name='InvoiceItem',
         #     fields=[
