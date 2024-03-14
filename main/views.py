@@ -37,14 +37,14 @@ def view_products(request):
 @login_required(login_url='/login')
 def create_product(request):
     if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
+        form = ProductForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             product = form.save(commit=False)
             product.created_by = request.user
             product.save()
             return redirect("/view_products")
     else:
-        form = ProductForm()
+        form = ProductForm(user=request.user)
 
     return render(request, 'main/create_post.html', {"form": form})
 

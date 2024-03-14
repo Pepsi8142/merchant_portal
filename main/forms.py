@@ -18,9 +18,42 @@ class RegisterForm(UserCreationForm):
 
 
 class ProductForm(forms.ModelForm):
+    cash_payment = forms.BooleanField(required=False, label='নগদ')
+    credit_payment = forms.BooleanField(required=False, label='বাকি')
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['supplier_id'].queryset = user.supplier_set.all()
+
     class Meta:
         model = Product
-        fields = ["title", "description", "price", "img_url"]
+        fields = ["title", "description", "buying_price", "selling_price", "img_url", "stock_count", "supplier_id"]
+        labels = {
+            'title': 'পণ্যের নাম',
+            'description': 'পণ্যের বিবরণ',
+            'buying_price': 'ক্রয়মূল্য',
+            'selling_price': 'বিক্রয়মূল্য',
+            'img_url': 'ছবি',
+            'stock_count': 'স্টকের সংখ্যা',
+        }
+
+    def save(self, commit=True):
+        product = super().save(commit=False)
+        is_cash = self.cleaned_data.get('cash_payment', False)
+        is_credit = self.cleaned_data.get('credit_payment', False)
+        # Set is_cash based on tickbox values
+        if is_cash and not is_credit:
+            product.is_cash = True
+        elif not is_cash and is_credit:
+            product.is_cash = False
+        else:
+            # If neither tickbox is checked, assume credit payment
+            product.is_cash = False
+        if commit:
+            product.save()
+        return product
 
 
 class CustomerForm(forms.ModelForm):
