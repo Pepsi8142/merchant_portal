@@ -30,21 +30,21 @@ class Migration(migrations.Migration):
         #     name='birth_date',
         #     field=models.DateField(blank=True, null=True),
         # ),
-        migrations.AddField(
-            model_name='customer',
-            name='created_by',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
-            model_name='customer',
-            name='img_url',
-            field=models.ImageField(null=True, upload_to='customers/'),
-        ),
-        migrations.AddField(
-            model_name='invoice',
-            name='seller',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
-        ),
+        # migrations.AddField(
+        #     model_name='customer',
+        #     name='created_by',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+        # ),
+        # migrations.AddField(
+        #     model_name='customer',
+        #     name='img_url',
+        #     field=models.ImageField(null=True, upload_to='customers/'),
+        # ),
+        # migrations.AddField(
+        #     model_name='invoice',
+        #     name='seller',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+        # ),
         migrations.AlterField(
             model_name='customer',
             name='phone',
