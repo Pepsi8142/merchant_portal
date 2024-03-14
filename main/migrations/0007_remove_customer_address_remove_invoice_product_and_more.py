@@ -70,17 +70,17 @@ class Migration(migrations.Migration):
         #         ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.product')),
         #     ],
         # ),
-        migrations.CreateModel(
-            name='Supplier',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('phone', models.CharField(max_length=13, unique=True)),
-                ('email', models.EmailField(blank=True, max_length=254, null=True)),
-                ('birth_date', models.DateField(blank=True, null=True)),
-                ('img_url', models.ImageField(null=True, upload_to='suppliers/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='Supplier',
+        #     fields=[
+        #         ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('name', models.CharField(max_length=50)),
+        #         ('phone', models.CharField(max_length=13, unique=True)),
+        #         ('email', models.EmailField(blank=True, max_length=254, null=True)),
+        #         ('birth_date', models.DateField(blank=True, null=True)),
+        #         ('img_url', models.ImageField(null=True, upload_to='suppliers/')),
+        #         ('created_at', models.DateTimeField(auto_now_add=True)),
+        #         ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+        #     ],
+        # ),
     ]
