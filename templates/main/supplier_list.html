@@ -1,10 +1,34 @@
 {% extends 'main/base.html' %}
-{% block title %}আমার সাপ্লাইয়ার{% endblock %}
+{% block title %}সাপ্লাইয়ার{% endblock %}
 
 {% block content %}
-<h1>আমার সাপ্লাইয়ার</h1>
-<button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_supplier' %}'">সাপ্লাইয়ার যোগ করুন</button>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+.btn {
+  border: none;
+  background-color: inherit;
+  padding: 5px 5px;
+  ont-size:36px
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: #eee;
+  color: green;
+  }
+
+.success {color: black;}
+.info {color: dodgerblue;}
+.warning {color: orange;}
+.danger {color: red;}
+</style>
+
+<h1><button class="btn success" onclick="window.location.href='{% url 'create_customer' %}'" style="font-size:38px;">আমার সাপ্লাইয়ার <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
+
 {% if suppliers %}
+<br>
 <table class="table">
   <thead>
     <tr>
