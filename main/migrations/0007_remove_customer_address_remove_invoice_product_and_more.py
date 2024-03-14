@@ -13,38 +13,38 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='customer',
-            name='address',
-        ),
-        migrations.RemoveField(
-            model_name='invoice',
-            name='product',
-        ),
-        migrations.RemoveField(
-            model_name='invoice',
-            name='quantity',
-        ),
-        migrations.AddField(
-            model_name='customer',
-            name='birth_date',
-            field=models.DateField(blank=True, null=True),
-        ),
-        migrations.AddField(
-            model_name='customer',
-            name='created_by',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
-            model_name='customer',
-            name='img_url',
-            field=models.ImageField(null=True, upload_to='customers/'),
-        ),
-        migrations.AddField(
-            model_name='invoice',
-            name='seller',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
-        ),
+        # migrations.RemoveField(
+        #     model_name='customer',
+        #     name='address',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='invoice',
+        #     name='product',
+        # ),
+        # migrations.RemoveField(
+        #     model_name='invoice',
+        #     name='quantity',
+        # ),
+        # migrations.AddField(
+        #     model_name='customer',
+        #     name='birth_date',
+        #     field=models.DateField(blank=True, null=True),
+        # ),
+        # migrations.AddField(
+        #     model_name='customer',
+        #     name='created_by',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+        # ),
+        # migrations.AddField(
+        #     model_name='customer',
+        #     name='img_url',
+        #     field=models.ImageField(null=True, upload_to='customers/'),
+        # ),
+        # migrations.AddField(
+        #     model_name='invoice',
+        #     name='seller',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+        # ),
         migrations.AlterField(
             model_name='customer',
             name='phone',
@@ -60,27 +60,27 @@ class Migration(migrations.Migration):
             name='author',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
-        migrations.CreateModel(
-            name='InvoiceItem',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField()),
-                ('total_price', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
-                ('invoice', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.invoice')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.product')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Supplier',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('phone', models.CharField(max_length=13, unique=True)),
-                ('email', models.EmailField(blank=True, max_length=254, null=True)),
-                ('birth_date', models.DateField(blank=True, null=True)),
-                ('img_url', models.ImageField(null=True, upload_to='suppliers/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='InvoiceItem',
+        #     fields=[
+        #         ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('quantity', models.PositiveIntegerField()),
+        #         ('total_price', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
+        #         ('invoice', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.invoice')),
+        #         ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.product')),
+        #     ],
+        # ),
+        # migrations.CreateModel(
+        #     name='Supplier',
+        #     fields=[
+        #         ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('name', models.CharField(max_length=50)),
+        #         ('phone', models.CharField(max_length=13, unique=True)),
+        #         ('email', models.EmailField(blank=True, max_length=254, null=True)),
+        #         ('birth_date', models.DateField(blank=True, null=True)),
+        #         ('img_url', models.ImageField(null=True, upload_to='suppliers/')),
+        #         ('created_at', models.DateTimeField(auto_now_add=True)),
+        #         ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
+        #     ],
+        # ),
     ]
