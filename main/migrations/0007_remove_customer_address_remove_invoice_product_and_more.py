@@ -60,16 +60,16 @@ class Migration(migrations.Migration):
             name='author',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
-        migrations.CreateModel(
-            name='InvoiceItem',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField()),
-                ('total_price', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
-                ('invoice', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.invoice')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.product')),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='InvoiceItem',
+        #     fields=[
+        #         ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('quantity', models.PositiveIntegerField()),
+        #         ('total_price', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
+        #         ('invoice', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.invoice')),
+        #         ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.product')),
+        #     ],
+        # ),
         migrations.CreateModel(
             name='Supplier',
             fields=[
