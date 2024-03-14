@@ -25,7 +25,7 @@
 .danger {color: red;}
 </style>
 
-<h1><button class="btn success" style="font-size:38px;">আমার কাস্টমার <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
+<h1><button class="btn success" onclick="window.location.href='{% url 'create_customer' %}'" style="font-size:38px;">আমার কাস্টমার <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
 {% if customers %}
 <table class="table">
   <thead>
