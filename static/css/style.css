@@ -234,10 +234,19 @@ body {
     color: #f1f1f1;
 }
 
-/* top bar css */
-
 /* Some media queries for responsiveness */
 @media screen and (max-height: 450px) {
   .sidebar {padding-top: 15px;}
   .sidebar a {font-size: 18px;}
 }
+
+/* top bar css */
+.footer {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem;
+    background-color: #333;
+}
+
