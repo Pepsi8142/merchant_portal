@@ -25,11 +25,11 @@ class Migration(migrations.Migration):
         #     model_name='invoice',
         #     name='quantity',
         # ),
-        migrations.AddField(
-            model_name='customer',
-            name='birth_date',
-            field=models.DateField(blank=True, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='customer',
+        #     name='birth_date',
+        #     field=models.DateField(blank=True, null=True),
+        # ),
         migrations.AddField(
             model_name='customer',
             name='created_by',
