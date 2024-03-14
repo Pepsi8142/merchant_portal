@@ -10,6 +10,6 @@
     {% csrf_token %}
     {{ form|crispy }}  <!-- Use crispy filter -->
     <button type="submit" class="btn btn-success">যোগ করুন</button>
-    <button type="submit" class="btn btn-danger" onclick="window.location.href='{% url 'home' %}'">বাতিল</button>
+    <button type="submit" class="btn btn-danger" onclick="window.location.href='{% url 'view_customer' %}'">বাতিল</button>
 </form>
 {% endblock %}

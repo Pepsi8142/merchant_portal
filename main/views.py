@@ -50,35 +50,6 @@ def create_post(request):
 
 
 @login_required(login_url='/login')
-def create_customer(request):
-    if request.method == 'POST':
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            phone = form.cleaned_data['phone']
-
-            existent_cus = Customer.objects.filter(
-                name=name,
-                phone=phone
-            ).first()
-
-            if existent_cus:
-                print('Customer already exists')
-                customer_id = existent_cus.id
-            else:
-                new_cus = form.save(commit=False)
-                new_cus.created_by = request.user
-                new_cus.save()
-                customer_id = new_cus.id
-
-            return redirect('create_invoice', customer_id=customer_id)
-    else:
-        form = CustomerForm()
-
-    return render(request, 'main/create_customer.html', {'form': form})
-
-
-@login_required(login_url='/login')
 def create_invoice(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
     products = Product.objects.all()  # Retrieve all products from the database
@@ -205,6 +176,21 @@ def view_customer(request):
 
     customers = Customer.objects.filter(created_by=cur_usr).values('id', 'created_at', 'name', 'phone', 'email', 'birth_date')
     return render(request, 'main/customer_list.html', {'customers': customers})
+
+
+@login_required(login_url='/login')
+def create_customer(request):
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.created_by = request.user
+            customer.save()
+            return redirect('view_customer')
+    else:
+        form = CustomerForm()
+
+    return render(request, 'main/create_customer.html', {'form': form})
 
 
 @login_required(login_url='/login')
