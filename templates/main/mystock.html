@@ -1,0 +1,161 @@
+{% extends 'main/base.html' %}
+{% block title %}স্টক{% endblock %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+.btn {
+  border: none;
+  background-color: inherit;
+  padding: 5px 5px;
+  ont-size:36px
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn:hover {
+  background: #eee;
+  color: green;
+  }
+
+.success {color: black;}
+.info {color: dodgerblue;}
+.warning {color: orange;}
+.danger {color: red;}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+
+
+.pagination {
+    display: inline-block;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination a {
+    color: black;
+    border: 1px solid #ddd;
+    padding: 4px 8px;
+    margin: 0 4px;
+    text-decoration: none;
+    transition: background-color .3s;
+  }
+  
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
+
+</style>
+
+
+<h1><button class="btn success" onclick="window.location.href='{% url 'create_customer' %}'" style="font-size:38px;">আমার স্টক <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
+
+<br>
+
+{% if stocks %}
+<div class = "table-container">
+<table>
+    <tr>
+        <th>চালান নং</th>
+        <th>স্টকের তারিখ<br>ও সময়</th>
+        <th>সাপ্লাইয়ারের নাম</th>
+        <th>সাপ্লাইয়ারের<br>মোবাইল নম্বর</th>
+        <th>ক্রয়কৃত<br>পণ্য</th>
+        <th>পণ্যের সংখ্যা</th>
+        <th>মোট টাকা</th>
+        <th>নগদ/বাকি<br>বিক্রি</th>
+        <th>চালান</th>
+    </tr>
+    <!-- Table rows will go here -->
+    <!-- Example row: -->
+    {% for stock in stocks %}
+    <tr>
+        <td>{{stock.sl}}</td>
+        <td>{{stock.updated_at}}</td>
+        <td>{{stock.supplier_name}}</td>
+        <td>{{stock.supplier_mobile}}</td>
+        <td>{{stock.title}}</td>
+        <td>{{stock.stock_count}}</td>
+        <td>{{stock.amount}}</td>
+        <td>{{stock.is_cash}}</td>
+        <td>চালান</td>
+    </tr>
+    {% endfor %}
+    <!-- Add as many rows as you need -->
+</table>
+
+</div>
+
+
+<div class="pagination" id="pagination">
+    {% if pages.has_previous %}
+        <a href="?page={{ pages.previous_page_number }}">&laquo;</a>
+    {% else %}
+        <span class="disabled">&laquo;</span>
+    {% endif %}
+    
+    {% for num in pages.paginator.page_range %}
+        {% if pages.number == num %}
+            <a class="active" href="?page={{ num }}">{{ num }}</a>
+        {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+    
+    {% if pages.has_next %}
+        <a href="?page={{ pages.next_page_number }}">&raquo;</a>
+    {% else %}
+        <span class="disabled">&raquo;</span>
+    {% endif %}
+</div>
+
+
+<script>
+    // Function to convert English numbers to Bengali numbers
+    function convertToBengaliNumber(number) {
+        const bengaliNumbers = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return number.toString().split('').map(digit => bengaliNumbers[digit]).join('');
+    }
+
+    // Get all pagination links
+    const paginationLinks = document.querySelectorAll('.pagination a');
+
+    // Loop through each pagination link and convert the text to Bengali numbers
+    paginationLinks.forEach(link => {
+        const pageNumber = parseInt(link.textContent);
+        if (!isNaN(pageNumber)) {
+            link.textContent = convertToBengaliNumber(pageNumber);
+        }
+    });
+</script>
+
+
+{% else %}
+<p>{{ request.user.username }}, আপনার কোনো স্টক পাওয়া যায়নি।</p>
+{% endif %}
+
+
+{% endblock %}

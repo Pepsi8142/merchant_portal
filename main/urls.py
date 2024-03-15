@@ -16,5 +16,6 @@ urlpatterns = [
     path('invoice-history', views.view_history, name='invoice_history'),
     path('customer-list', views.view_customer, name='view_customer'),
     path('create-supplier', views.create_supplier, name='create_supplier'),
-    path('supplier-list', views.view_suppliers, name='view_suppliers')
+    path('supplier-list', views.view_suppliers, name='view_suppliers'),
+    path('mystock',views.mystock, name = 'mystock'),
 ]

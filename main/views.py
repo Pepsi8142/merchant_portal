@@ -12,6 +12,8 @@ from django.forms import formset_factory
 from django.contrib import messages
 from django.db.models import Sum, Value
 from django.db.models.functions import Concat
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from operator import itemgetter
 
 
 # def autodeploy(request):
@@ -230,3 +232,58 @@ def sign_up(request):
         form = RegisterForm()
 
     return render(request, 'registration/sign_up.html', {"form": form})
+
+
+
+
+@login_required(login_url='/login')
+def mystock(request):
+    cur_user = request.user
+
+
+    stocks = Product.objects.filter(created_by_id=cur_user).values('id', 'updated_at', 'supplier_id_id', 'title', 'stock_count', 'buying_price', 'is_cash').order_by('stock_count')
+
+    paginator = Paginator(stocks, 10)  # Assuming 10 items per page, adjust as needed
+    page_number = request.GET.get('page')  # Get the current page number from the query string
+
+    try:
+        page_stocks = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        page_stocks = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        page_stocks = paginator.page(paginator.num_pages)
+    
+
+
+
+    stock_res = []
+    c = 1
+    for product in page_stocks:
+        supplier_query_res = Supplier.objects.filter(id=product["supplier_id_id"]).values("name", "phone").first()
+        supplier_name = supplier_query_res["name"] if supplier_query_res else ""
+        supplier_phone = supplier_query_res["phone"] if supplier_query_res else ""
+
+        is_cash  = "নগদ/বাকি"
+        if product["is_cash"] == True:
+            is_cash = "নগদ"
+        else:
+            is_cash = 'বাকি'
+
+        new = {
+            "sl": c,
+            "updated_at": product["updated_at"],
+            "supplier_name": supplier_name,
+            "supplier_mobile": supplier_phone,
+            "title": product["title"],
+            "stock_count": product["stock_count"],
+            "amount": product["stock_count"] * product["buying_price"],
+            'is_cash': is_cash
+        }
+        stock_res.append(new)
+        c+=1
+
+   
+
+    return render(request, 'main/mystock.html', {"pages": page_stocks, "stocks": stock_res})
