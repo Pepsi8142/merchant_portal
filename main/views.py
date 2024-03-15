@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_protect
+
 from .forms import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -216,6 +218,7 @@ def create_supplier(request):
     return render(request, 'main/create_supplier.html', {'form': form})
 
 
+@csrf_protect
 def sign_up(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
