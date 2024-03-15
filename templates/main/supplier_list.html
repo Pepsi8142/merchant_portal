@@ -34,6 +34,7 @@
     <tr>
         <th scope="col">সাপ্লাইয়ার আইডি</th>
         <th scope="col">রেজিস্ট্রেশন তারিখ</th>
+        <th scope="col">সাপ্লাইয়ারের ছবি</th>
         <th scope="col">সাপ্লাইয়ারের নাম</th>
         <th scope="col">মোবাইল নম্বর</th>
         <th scope="col">ইমেইল ঠিকানা</th>
@@ -45,6 +46,13 @@
     <tr>
         <td>{{ supplier.id }}</td>
         <td>{{ supplier.created_at }}</td>
+        <td>
+        {% if supplier.img_url %}
+            <img src="{{ supplier.img_url.url }}" class="img-fluid supplier_img" alt="Supplier Image">
+        {% else %}
+            No image available
+        {% endif %}
+        </td>
         <td>{{ supplier.name }}</td>
         <td>{{ supplier.phone }}</td>
         <td>{{ supplier.email }}</td>

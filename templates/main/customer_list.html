@@ -34,6 +34,7 @@
     <tr>
         <th scope="col">কাস্টমার আইডি</th>
         <th scope="col">রেজিস্ট্রেশন তারিখ</th>
+        <th scope="col">কাস্টমারের ছবি</th>
         <th scope="col">কাস্টমারের নাম</th>
         <th scope="col">মোবাইল নম্বর</th>
         <th scope="col">ইমেইল ঠিকানা</th>
@@ -45,6 +46,13 @@
     <tr>
         <td>{{ customer.id }}</td>
         <td>{{ customer.created_at }}</td>
+        <td>
+        {% if customer.img_url %}
+            <img src="{{ customer.img_url.url }}" class="img-fluid customer_img" alt="Customer Image">
+        {% else %}
+            No image available
+        {% endif %}
+        </td>
         <td>{{ customer.name }}</td>
         <td>{{ customer.phone }}</td>
         <td>{{ customer.email }}</td>

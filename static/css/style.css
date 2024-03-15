@@ -263,3 +263,12 @@ body {
     object-fit: cover; /* Ensure the image fills the entire space of its container without stretching */
 }
 
+.supplier_img {
+    width: 4.75rem;
+    height: 4.75rem;
+}
+
+.customer_img {
+    width: 4.75rem;
+    height: 4.75rem;
+}

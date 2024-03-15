@@ -178,7 +178,7 @@ def view_history(request):
 def view_customer(request):
     cur_usr = request.user
 
-    customers = Customer.objects.filter(created_by=cur_usr).values('id', 'created_at', 'name', 'phone', 'email', 'birth_date')
+    customers = Customer.objects.filter(created_by=cur_usr).only('id', 'created_at', 'img_url', 'name', 'phone', 'email', 'birth_date')
     return render(request, 'main/customer_list.html', {'customers': customers})
 
 
@@ -201,7 +201,7 @@ def create_customer(request):
 def view_suppliers(request):
     cur_usr = request.user
 
-    supplier = Supplier.objects.filter(created_by=cur_usr).values('id', 'created_at', 'name', 'phone', 'email', 'birth_date')
+    supplier = Supplier.objects.filter(created_by=cur_usr).only('id', 'created_at', 'img_url', 'name', 'phone', 'email', 'birth_date')
     return render(request, 'main/supplier_list.html', {'suppliers': supplier})
 
 
