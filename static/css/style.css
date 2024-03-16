@@ -288,12 +288,12 @@ th {
     text-align: left;
 }
 
-/* Table row */
+
 tr {
     border: 1px solid #ddd;
 }
 
-/* Table cell */
+
 td {
     border: 1px solid #ddd;
     padding: 8px;
