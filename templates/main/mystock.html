@@ -68,31 +68,125 @@ th {
   
   .pagination a:hover:not(.active) {background-color: #ddd;}
 
+
+
+
+.update-btn {
+    background-color: lightgreen;
+    color: black;
+}
+
+.delete-btn {
+    background-color: #E66E6E;
+    color: black;
+}
+
+
+
+.update-form {
+    display: none; /* Initially hidden */
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
 </style>
 
 
-<h1><button class="btn success" onclick="window.location.href='{% url 'create_customer' %}'" style="font-size:38px;">আমার স্টক <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
+<h1><button class="btn success" onclick="window.location.href='{% url 'create_product' %}'" style="font-size:38px;">আমার স্টক <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
 
 <br>
 
 {% if stocks %}
+
+
+ <!-- Update form -->
+<form id="update-form" class="update-form" method="POST">
+    {% csrf_token %}
+    <!-- Form fields for update -->
+    <!-- Adjust the form fields based on your data model -->
+    <input type="hidden" name="stock_id" id="stock_id">
+    <label for="product_name">ক্রয়কৃত পণ্য:</label>
+    <input type="text" name="product_name" id="product_name" readonly required><br>
+    <label for="product_quantity">পণ্যের সংখ্যা:</label>
+    <input type="number" name="product_quantity" id="product_quantity" required min="0"><br>
+    </select><br>
+    <button class="btn success update-btn" type="submit">স্টক আপডেট</button> <!-- Changed button type to "submit" -->
+</form>
+
+<script>
+    // Function to handle form submission
+    document.getElementById('update-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const formData = new FormData(this); // Create FormData object with form data
+        const stockId = formData.get('stock_id'); // Get stock ID from form data
+
+        // Send form data to server using fetch API
+        fetch(`/update_stock/${stockId}/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}' // Add CSRF token to headers
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // If update is successful, reload the page
+                window.location.reload();
+            } else {
+                throw new Error('Failed to update stock item');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    function showUpdateForm(stockId) {
+        const form = document.getElementById('update-form');
+        form.style.display = 'block';
+        
+        // Find the corresponding row in the table
+        const row = document.querySelector(`tr[data-stock-id="${stockId}"]`);
+        
+        // Debugging: Log the value of row
+        console.log(row);
+        console.log(stockId)
+        
+        // Check if row is found
+        if (row) {
+            // Extract data from the cells of that row and populate the form fields
+            const cells = row.querySelectorAll('td');
+            
+            // Populate the form fields with data from the cells
+            // Adjust the IDs based on your form field IDs
+            document.getElementById('stock_id').value = stockId; // Populate the hidden input with stockId
+            document.getElementById('product_name').value = cells[4].textContent.trim(); // Assuming the product name is in the 5th cell
+            document.getElementById('product_quantity').value = cells[5].textContent.trim(); // Assuming the product quantity is in the 6th cell
+            document.getElementById('payment_method').value = cells[7].textContent.trim(); // Assuming the payment method is in the 8th cell
+        } else {
+            console.error(`Row with data-stock-id "${stockId}" not found.`);
+        }
+    }
+</script>
+
 <div class = "table-container">
 <table>
     <tr>
         <th>চালান নং</th>
         <th>স্টকের তারিখ<br>ও সময়</th>
-        <th>সাপ্লাইয়ারের নাম</th>
+        <th>সাপ্লাইয়ারের<br>নাম</th>
         <th>সাপ্লাইয়ারের<br>মোবাইল নম্বর</th>
         <th>ক্রয়কৃত<br>পণ্য</th>
         <th>পণ্যের সংখ্যা</th>
         <th>মোট টাকা</th>
         <th>নগদ/বাকি<br>বিক্রি</th>
         <th>চালান</th>
+        <th>আপডেট/ডিলিট</th>
     </tr>
-    <!-- Table rows will go here -->
-    <!-- Example row: -->
+
     {% for stock in stocks %}
-    <tr>
+    <tr data-stock-id="{{ stock.id }}">
         <td>{{stock.sl}}</td>
         <td>{{stock.updated_at}}</td>
         <td>{{stock.supplier_name}}</td>
@@ -102,9 +196,13 @@ th {
         <td>{{stock.amount}}</td>
         <td>{{stock.is_cash}}</td>
         <td>চালান</td>
+        <td class="update-delete-btns">
+            <button class="btn success update-btn" onclick="showUpdateForm('{{ stock.id }}')">স্টক আপডেট</button>       
+            <button class="btn danger delete-btn" data-stock-id="{{ stock.id }}">স্টক ডিলিট</button>
+        </td>
     </tr>
     {% endfor %}
-    <!-- Add as many rows as you need -->
+   
 </table>
 
 </div>
@@ -133,6 +231,9 @@ th {
 </div>
 
 
+
+
+
 <script>
     // Function to convert English numbers to Bengali numbers
     function convertToBengaliNumber(number) {
@@ -150,6 +251,64 @@ th {
             link.textContent = convertToBengaliNumber(pageNumber);
         }
     });
+
+
+    
+
+    function deleteStock(stockId) {
+        const csrftoken = getCookie('csrftoken'); // Function to get the CSRF token from cookies
+        if (confirm("আপনি কি এই স্টক আইটেম ডিলিট করার বিষয়ে নিশ্চিত?")) {
+            fetch(`delete_stock/${stockId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // If deletion is successful, remove the row from the table
+                    const row = document.querySelector(`tr[data-stock-id="${stockId}"]`);
+                
+                    window.location.reload();
+                } else {
+                    throw new Error('Failed to delete stock item');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+    
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    // Get all "Delete" buttons
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    
+    // Add event listener to each "Delete" button
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const stockId = button.dataset.stockId;
+            deleteStock(stockId);
+        });
+    });
+
+
+    
 </script>
 
 

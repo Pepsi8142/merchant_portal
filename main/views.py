@@ -287,3 +287,41 @@ def mystock(request):
    
 
     return render(request, 'main/mystock.html', {"pages": page_stocks, "stocks": stock_res})
+
+
+
+
+
+@login_required(login_url='/login')
+@require_http_methods(["DELETE"])
+def delete_stock(request, stock_id):
+    try:
+        stock = Product.objects.get(id=stock_id, created_by=request.user)
+        stock.delete()
+        return JsonResponse({"message": "Stock item deleted successfully"}, status=200)
+    except Product.DoesNotExist:
+        return JsonResponse({"error": "Stock item not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+
+@login_required(login_url='/login')
+def update_stock(request, stock_id):
+    if request.method == 'POST':
+        # Retrieve the stock item from the database
+        stock_item = get_object_or_404(Product, id=stock_id,created_by=request.user)
+        
+        # Update only the product_quantity field with the new value from the form
+        new_product_quantity = request.POST.get('product_quantity')
+        stock_item.stock_count = new_product_quantity
+        
+        # Save the updated stock item
+        stock_item.save()
+
+        # Optionally, you can update other fields here if needed
+        
+        # Return a JSON response indicating success
+        return JsonResponse({'message': 'Stock item updated successfully'})
+
+    # Handle other HTTP methods if needed
