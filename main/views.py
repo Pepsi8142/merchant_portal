@@ -273,6 +273,7 @@ def mystock(request):
             is_cash = 'বাকি'
 
         new = {
+            "id":product["id"],
             "sl": c,
             "updated_at": product["updated_at"],
             "supplier_name": supplier_name,
