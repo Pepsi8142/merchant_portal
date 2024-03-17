@@ -14,6 +14,7 @@ from django.db.models import Sum, Value
 from django.db.models.functions import Concat
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from operator import itemgetter
+from django.views.decorators.http import require_http_methods
 
 
 # def autodeploy(request):
