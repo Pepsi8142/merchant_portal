@@ -8,7 +8,7 @@
 <h2>কাস্টমার যোগ করুন</h2>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form|crispy }}  <!-- Use crispy filter -->
+    {{ form|crispy }}    <!-- Use crispy filter -->
     <button type="submit" class="btn btn-success">যোগ করুন</button>
     <button type="submit" class="btn btn-danger" onclick="window.location.href='{% url 'view_customer' %}'">বাতিল</button>
 </form>
