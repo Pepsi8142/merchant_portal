@@ -18,8 +18,16 @@ class RegisterForm(UserCreationForm):
 
 
 class ProductForm(forms.ModelForm):
-    cash_payment = forms.BooleanField(required=False, label='নগদ')
-    credit_payment = forms.BooleanField(required=False, label='বাকি')
+    PAYMENT_CHOICES = [
+        (True, 'নগদ'),
+        (False, 'বাকি')
+    ]
+
+    cash_payment = forms.ChoiceField(
+        choices=PAYMENT_CHOICES,
+        widget=forms.RadioSelect,
+        label='পেমেন্ট'
+    )
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -41,16 +49,8 @@ class ProductForm(forms.ModelForm):
 
     def save(self, commit=True):
         product = super().save(commit=False)
-        is_cash = self.cleaned_data.get('cash_payment', False)
-        is_credit = self.cleaned_data.get('credit_payment', False)
-        # Set is_cash based on tickbox values
-        if is_cash and not is_credit:
-            product.is_cash = True
-        elif not is_cash and is_credit:
-            product.is_cash = False
-        else:
-            # If neither tickbox is checked, assume credit payment
-            product.is_cash = False
+        is_cash = self.cleaned_data['cash_payment']
+        product.is_cash = is_cash
         if commit:
             product.save()
         return product
