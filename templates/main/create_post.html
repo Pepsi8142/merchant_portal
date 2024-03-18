@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 {% block title %}Create a Post{% endblock %}
-<!--{% load crispy_forms_tags %}-->
+{% load crispy_forms_tags %}
 {% block content %}
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
@@ -26,23 +26,22 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 <!--    {{ form|crispy }}-->
-    {{ form.title.label }}
-    {{ form.title }}
-    {{ form.description.label }}
-    {{ form.description }}
-    {{ form.buying_price.label }}
-    {{ form.buying_price }}
-    {{ form.selling_price.label }}
-    {{ form.selling_price }}
-    {{ form.img_url.label }}
-    {{ form.img_url }}
-    {{ form.stock_count.label }}
-    {{ form.stock_count }}
-    <h1><button class="btn_sign success" onclick="window.location.href='{% url 'create_supplier' %}'"><i class="material-icons" style="font-size:30px;">add_circle</i></button></h1>
+    {{ form.title.label }}<br>
+    {{ form.title }}<br>
+    {{ form.description.label }}<br>
+    {{ form.description }}<br>
+    {{ form.buying_price.label }}<br>
+    {{ form.buying_price }}<br>
+    {{ form.selling_price.label }}<br>
+    {{ form.selling_price }}<br>
+    {{ form.img_url.label }}<br>
+    {{ form.img_url }} <br> <br>
+    {{ form.stock_count.label }}<br>
+    {{ form.stock_count }}<br>
     {{ form.supplier_id.label }}
-    {{ form.supplier_id }}
-    {{ form.cash_payment.label }}
-    {{ form.cash_payment }}
+    {{ form.supplier_id }}<h1><button class="btn_sign success" onclick="window.location.href='{% url 'create_supplier' %}'"><i class="material-icons" style="font-size:30px;">add_circle</i></button></h1>
+    {{ form.cash_payment.label }}<br>
+    {{ form.cash_payment }}<br>
 
     <button type="submit" class="btn btn-success">যোগ করুন</button>
     <button type="submit" class="btn btn-danger" onclick="window.location.href='{% url 'view_products' %}'">বাতিল</button>
