@@ -5,6 +5,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
+    <button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_supplier' %}'">সাপ্লায়ার যোগ করুন</button>
     <button type="submit" class="btn btn-success">যোগ করুন</button>
     <button type="submit" class="btn btn-danger" onclick="window.location.href='{% url 'view_products' %}'">বাতিল</button>
 </form>
