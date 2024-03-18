@@ -25,11 +25,13 @@ from django.views.decorators.http import require_http_methods
 #     except subprocess.CalledProcessError as e:
 #         return JsonResponse({'error': f'Error executing autodeploy script: {e}'}, status=500)
 
+@csrf_protect
 @login_required(login_url='/login')
 def home(request):
     return render(request, 'main/home.html')
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def view_products(request):
     cur_usr = request.user
@@ -39,6 +41,7 @@ def view_products(request):
     return render(request, 'main/myproducts.html', {"products": products})
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def create_product(request):
     if request.method == 'POST':
@@ -54,6 +57,7 @@ def create_product(request):
     return render(request, 'main/create_post.html', {"form": form})
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def create_invoice(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
@@ -101,6 +105,7 @@ def create_invoice(request, customer_id):
     return render(request, 'main/create_invoice.html', {'customer': customer, 'formset': formset, 'cart': request.session.get('cart', {}), 'products': products})
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def add_to_cart(request):
     if request.method == 'POST':
@@ -127,6 +132,7 @@ def add_to_cart(request):
     return redirect('create_invoice', customer_id=customer_id)
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def view_invoice(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
@@ -159,6 +165,7 @@ def view_invoice(request, invoice_id):
     return render(request, 'main/invoice_format.html', context)
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def view_history(request):
     user_invoices = Invoice.objects.filter(seller=request.user).annotate(
@@ -175,6 +182,7 @@ def view_history(request):
     return render(request, 'main/invoice_history.html', {'user_invoices': user_invoices})
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def view_customer(request):
     cur_usr = request.user
@@ -183,6 +191,7 @@ def view_customer(request):
     return render(request, 'main/customer_list.html', {'customers': customers})
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def create_customer(request):
     if request.method == 'POST':
@@ -198,6 +207,7 @@ def create_customer(request):
     return render(request, 'main/create_customer.html', {'form': form})
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def view_suppliers(request):
     cur_usr = request.user
@@ -206,6 +216,7 @@ def view_suppliers(request):
     return render(request, 'main/supplier_list.html', {'suppliers': supplier})
 
 
+@csrf_protect
 @login_required(login_url='/login')
 def create_supplier(request):
     if request.method == 'POST':
@@ -236,7 +247,7 @@ def sign_up(request):
 
 
 
-
+@csrf_protect
 @login_required(login_url='/login')
 def mystock(request):
     cur_user = request.user
@@ -293,7 +304,7 @@ def mystock(request):
 
 
 
-
+@csrf_protect
 @login_required(login_url='/login')
 @require_http_methods(["DELETE"])
 def delete_stock(request, stock_id):
@@ -307,7 +318,7 @@ def delete_stock(request, stock_id):
         return JsonResponse({"error": str(e)}, status=500)
 
 
-
+@csrf_protect
 @login_required(login_url='/login')
 def update_stock(request, stock_id):
     if request.method == 'POST':
