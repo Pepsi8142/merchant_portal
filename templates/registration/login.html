@@ -19,7 +19,21 @@
     background-color: green;
     /* You can also customize other button properties such as text color, border, etc. */
 }
-</style>
+
+        /* Center the image horizontally and vertically */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Set container height to viewport height */
+        }
+
+        /* Style for the image */
+        .image {
+            max-width: 100%; /* Ensure the image does not exceed its container's width */
+            max-height: 100%; /* Ensure the image does not exceed its container's height */
+        }
+    </style>
 <!-- Login form creation starts-->
 <section class="container-fluid">
   <!-- row and justify-content-center class is used to place the form in center -->
@@ -29,8 +43,14 @@
   {% block content %}
   <form class="form-container" method="post">
          <div class="form-group">
+             <div class="container">
+                 <img class="image" src="{% static 'images/mangoit_logo.png' %}" alt="Example Image" width="300" height="80">
+             </div>
             <h4 class="text-center font-weight-bold"> লগইন </h4>
-            {% csrf_token %}{{form|crispy}}
+            {% csrf_token %}
+             <!-- {{form|crispy}} -->
+             ব্যবহারকারীর নাম {{form.username}} <br>
+             পাসওয়ার্ড {{form.password}} <br>
             <p>একাউন্ট নেই? রেজিস্ট্রেশন করুন <a href="/sign-up">এখানে</a></p>
          </div>
          <div class="form-footer">
