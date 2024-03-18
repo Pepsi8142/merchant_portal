@@ -45,6 +45,7 @@ class ProductForm(forms.ModelForm):
             'selling_price': 'বিক্রয়মূল্য',
             'img_url': 'ছবি',
             'stock_count': 'স্টকের সংখ্যা',
+            'supplier_id': 'সাপ্লায়ার'
         }
 
     def save(self, commit=True):
