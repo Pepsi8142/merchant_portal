@@ -2,10 +2,48 @@
 {% block title %}Create a Post{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+.btn_sign {
+  border: none;
+  background-color: inherit;
+  padding: 5px 5px;
+  ont-size:36px
+  cursor: pointer;
+  display: inline-block;
+}
+
+.btn_sign:hover {
+  background: #eee;
+  color: green;
+  }
+
+.success {color: black;}
+.info {color: dodgerblue;}
+.warning {color: orange;}
+.danger {color: red;}
+</style>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_supplier' %}'">সাপ্লায়ার যোগ করুন</button>
+<!--    {{ form|crispy }}-->
+    {{ form.title.label }}
+    {{ form.title }}
+    {{ form.description.label }}
+    {{ form.description }}
+    {{ form.buying_price.label }}
+    {{ form.buying_price }}
+    {{ form.selling_price.label }}
+    {{ form.selling_price }}
+    {{ form.img_url.label }}
+    {{ form.img_url }}
+    {{ form.stock_count.label }}
+    {{ form.stock_count }}
+    <h1><button class="btn_sign success" onclick="window.location.href='{% url 'create_supplier' %}'"><i class="material-icons" style="font-size:30px;">add_circle</i></button></h1>
+    {{ form.supplier_id.label }}
+    {{ form.supplier_id }}
+    {{ form.cash_payment.label }}
+    {{ form.cash_payment }}
+
     <button type="submit" class="btn btn-success">যোগ করুন</button>
     <button type="submit" class="btn btn-danger" onclick="window.location.href='{% url 'view_products' %}'">বাতিল</button>
 </form>
