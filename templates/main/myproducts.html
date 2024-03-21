@@ -31,7 +31,7 @@
 <!--<div class="col-md-12">-->
 <!--    <button type="submit" class="btn btn-primary" onclick="window.location.href='{% url 'create_product' %}'">পণ্য যোগ করুন</button>-->
 <!--</div>-->
-
+{% if products %}
 <div class="row">
     {% for product in products %}
     <div class="col-md-3">
@@ -63,4 +63,7 @@
     </div>
     {% endfor %}
 </div>
+{% else %}
+<p>{{ request.user.username }}, আপনার কোনো পণ্য পাওয়া যায়নি।</p>
+{% endif %}
 {% endblock %}
