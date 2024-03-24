@@ -31,7 +31,12 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-primary" onclick="addToCart('{{ product.id }}')">Add to Cart</button>
+                         <div class="input-group">
+                            <input type="number" class="form-control" id="quantityInput" name="quantity" value="1" min="1">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary" onclick="addToCart('{{ product.id }}', this)">Add to Cart</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,34 +65,41 @@
                     <option value="{{ customer.id }}">{{ customer.name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn btn-primary mt-3">অর্ডার সম্পন্ন করুন</button>
+                <button type="submit" class="btn btn-success mt-3">অর্ডার সম্পন্ন করুন</button>
             </form>
     </div>
 </div>
 
 <script>
-function addToCart(productId) {
-    var formData = new FormData();
-    formData.append('product_id', productId);
+function addToCart(productId, button) {
+    var quantityInput = button.closest('.card-footer').querySelector('.form-control');
+    if (quantityInput) {
+        var quantity = quantityInput.value; // Get the value from the nearest input field
+        var formData = new FormData();
+        formData.append('product_id', productId);
+        formData.append('quantity', quantity);
 
-    fetch("{% url 'add_to_cart' %}", {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': '{{ csrf_token }}'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error adding item to cart');
-        }
-        console.log('Item added to cart successfully');
-        // Reload the page to update the cart section
-        window.location.reload();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        fetch("{% url 'add_to_cart' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error adding item to cart');
+            }
+            console.log('Item added to cart successfully');
+            // Reload the page to update the cart section
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
+        console.error('Quantity input field not found.');
+    }
 }
 </script>
 {% endblock %}
