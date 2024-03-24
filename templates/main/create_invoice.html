@@ -105,9 +105,11 @@ function addToCart(productId, button) {
 
 // call clear cart function
 
-document.getElementById('clear-cart-btn').addEventListener('click', function() {
+document.getElementById('clear-cart-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
     fetch("{% url 'clear_cart' %}", {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'X-CSRFToken': '{{ csrf_token }}'
         }
@@ -115,7 +117,6 @@ document.getElementById('clear-cart-btn').addEventListener('click', function() {
     .then(response => {
         if (response.ok) {
             console.log('Cart cleared successfully');
-            // Optionally, you can reload the page after clearing the cart
             // window.location.reload();
         } else {
             console.error('Failed to clear cart');

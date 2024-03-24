@@ -130,6 +130,7 @@ def add_to_cart(request):
 
 @csrf_protect
 @login_required(login_url='/login')
+@require_http_methods(["DELETE"])
 def clear_cart(request):
     if 'cart' in request.session:
         del request.session['cart']
