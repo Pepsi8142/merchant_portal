@@ -130,6 +130,14 @@ def add_to_cart(request):
 
 @csrf_protect
 @login_required(login_url='/login')
+def clear_cart(request):
+    if 'cart' in request.session:
+        del request.session['cart']
+    return JsonResponse({'success': True})
+
+
+@csrf_protect
+@login_required(login_url='/login')
 def view_invoice(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
 
