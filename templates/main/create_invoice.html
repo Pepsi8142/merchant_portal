@@ -4,20 +4,6 @@
 {% block title %}অর্ডার নিন{% endblock %}
 
 {% block content %}
-
-<h2>কাস্টমার নির্বাচন করুন</h2>
-<form action="{% url 'create_invoice' %}" method="post">
-    {% csrf_token %}
-    <select name="customer" class="form-control">
-        <option value="" selected disabled>কাস্টমার নির্বাচন করুন</option>
-        {% for customer in customers %}
-        <option value="{{ customer.id }}">{{ customer.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit" class="btn btn-primary mt-3">অর্ডার সম্পন্ন করুন</button>
-</form>
-
-
 <div class="row">
     <div class="col-md-10">
         <h2>পণ্য</h2>
@@ -64,6 +50,18 @@
         {% else %}
         <p>আপনার অর্ডার এ কোনো পণ্য যোগ করা হয়নি </p>
         {% endif %}
+
+        <h2>কাস্টমার নির্বাচন করুন</h2>
+            <form action="{% url 'create_invoice' %}" method="post">
+                {% csrf_token %}
+                <select name="customer" class="form-control">
+                    <option value="" selected disabled>কাস্টমার নির্বাচন করুন</option>
+                    {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary mt-3">অর্ডার সম্পন্ন করুন</button>
+            </form>
     </div>
 </div>
 
