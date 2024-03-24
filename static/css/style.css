@@ -302,3 +302,10 @@ td {
 tr:hover {
     background-color: #ddd;
 }
+
+.invoice_section {
+    padding: 0.5rem;
+    border-radius: 0.45rem;
+    background-color: black;
+    color: white;
+}
