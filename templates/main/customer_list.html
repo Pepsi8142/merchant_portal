@@ -76,7 +76,7 @@ $(document).ready(function() {
         if (confirm('আপনি কি এই কাস্টমার ডিলিট করার বিষয়ে নিশ্চিত?')) {
             $.ajax({
                 url: '{% url "delete_customer" 0 %}'.replace('0', customerId),
-                type: 'POST',  // Change type to POST
+                type: 'DELETE',
                 beforeSend: function(xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  // Include CSRF token in the request header
                 },

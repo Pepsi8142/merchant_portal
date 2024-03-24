@@ -14,7 +14,7 @@ from django.db.models import Sum, Value
 from django.db.models.functions import Concat
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from operator import itemgetter
-from django.views.decorators.http import require_http_methods, require_POST
+from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseBadRequest
 
 
@@ -203,7 +203,7 @@ def create_customer(request):
 
 @csrf_protect
 @login_required(login_url='/login')
-@require_POST
+@require_http_methods(["DELETE"])
 def delete_customer(request, customer_id):
     try:
         customer = Customer.objects.get(pk=customer_id, created_by=request.user)
