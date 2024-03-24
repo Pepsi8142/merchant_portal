@@ -15,6 +15,7 @@ from django.db.models.functions import Concat
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from operator import itemgetter
 from django.views.decorators.http import require_http_methods
+from django.http import HttpResponseBadRequest
 
 
 # def autodeploy(request):
@@ -59,50 +60,45 @@ def create_product(request):
 
 @csrf_protect
 @login_required(login_url='/login')
-def create_invoice(request, customer_id):
-    customer = get_object_or_404(Customer, id=customer_id)
-    products = Product.objects.all()  # Retrieve all products from the database
-    InvoiceItemFormSet = formset_factory(InvoiceItemForm, extra=1)
+def create_invoice(request):
+    user = request.user
 
     if request.method == 'POST':
-        formset = InvoiceItemFormSet(request.POST)
-        if formset.is_valid():
-            # Get cart items from the session
-            cart = request.session.get('cart', {})
+        cart = request.session.get('cart', {})
+        if cart:
+            form = CustomerSelectionForm(request.POST, user=user)
+            if form.is_valid():
+                customer_id = form.cleaned_data['customer'].id
 
-            if not cart:
-                messages.error(request, 'Cannot create invoice. Your cart is empty.')
-                return redirect('create_invoice', customer_id=customer_id)
+                # Create an invoice
+                invoice = Invoice.objects.create(seller=user, customer_id=customer_id)
 
-            # Create the invoice
-            invoice = Invoice.objects.create(seller=request.user, customer=customer)
+                # Retrieve the cart data from the session
+                for product_id, item in cart.items():
+                    product = Product.objects.get(pk=product_id)
+                    quantity = item['quantity']
+                    # Create an invoice item for each product in the cart
+                    invoice_item = InvoiceItem.objects.create(invoice=invoice, product=product, quantity=quantity)
 
-            # Create invoice items from cart data and associate them with the invoice
-            invoice_items = []
-            for product_id, item in cart.items():
-                product = get_object_or_404(Product, id=product_id)
-                quantity = item['quantity']
-                invoice_item = InvoiceItem.objects.create(
-                    invoice=invoice,
-                    product=product,
-                    quantity=quantity
-                )
-                invoice_items.append(invoice_item)
+                # Update the total price of the invoice
+                invoice.update_total_price()
 
-            # Update total price for the invoice
-            invoice.update_total_price()
+                # Clear the cart after creating the invoice
+                request.session.pop('cart', None)
 
-            # Clear cart session
-            request.session.pop('cart', None)
-
-            # Redirect to view_invoice with the newly created invoice's ID
-            return redirect('view_invoice', invoice_id=invoice.id)
+                # Redirect to the view_invoice page with the invoice ID
+                return redirect('view_invoice', invoice_id=invoice.pk)
+            else:
+                messages.error(request, 'Please select a customer.')
+        else:
+            messages.warning(request, "Your cart is empty. Please add items before proceeding.")
+            return redirect('create_invoice')
     else:
-        formset = InvoiceItemFormSet()
-
-    request.session['customer_id'] = customer_id
-
-    return render(request, 'main/create_invoice.html', {'customer': customer, 'formset': formset, 'cart': request.session.get('cart', {}), 'products': products})
+        form = CustomerSelectionForm(user=user)
+        products = Product.objects.filter(created_by=user)
+        customers = Customer.objects.filter(created_by=user)  # Fetch customers queryset
+        cart = request.session.get('cart', {})
+        return render(request, 'main/create_invoice.html', {"form": form, "products": products, "cart": cart, "customers": customers})
 
 
 @csrf_protect
@@ -110,26 +106,20 @@ def create_invoice(request, customer_id):
 def add_to_cart(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
         if product_id is not None:
-            # print(f'Received product id: {product_id}')
-            quantity = int(request.POST.get('form-0-quantity', 1))
-
             product = get_object_or_404(Product, id=product_id)
 
             cart = request.session.get('cart', {})
             if product_id in cart:
                 cart[product_id]['quantity'] += quantity
-                cart[product_id]['price'] += float(product.price)*quantity
+                cart[product_id]['selling_price'] += float(product.selling_price) * quantity
             else:
-                cart[product_id] = {'title': product.title, 'quantity': quantity, 'price': float(product.price)*quantity}
+                cart[product_id] = {'title': product.title, 'quantity': quantity, 'selling_price': float(product.selling_price) * quantity}
 
             request.session['cart'] = cart
-        else:
-            print(f'Product id is None')
 
-    customer_id = request.session.get('customer_id')
-
-    return redirect('create_invoice', customer_id=customer_id)
+    return redirect('create_invoice')
 
 
 @csrf_protect
@@ -144,7 +134,6 @@ def view_invoice(request, invoice_id):
 
     # Get customer details
     customer_name = invoice.customer.name
-    customer_address = invoice.customer.address
     customer_phone = invoice.customer.phone
     customer_email = invoice.customer.email
 
@@ -156,7 +145,6 @@ def view_invoice(request, invoice_id):
         'invoice_date': invoice_date,
         'grand_total': grand_total,
         'customer_name': customer_name,
-        'customer_address': customer_address,
         'customer_phone': customer_phone,
         'customer_email': customer_email,
         'invoice_items': invoice_items,

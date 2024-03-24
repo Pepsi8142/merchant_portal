@@ -91,6 +91,11 @@ class SupplierForm(forms.ModelForm):
         self.fields['img_url'].required = False
 
 
-class InvoiceItemForm(forms.Form):
-    product = forms.ModelChoiceField(queryset=Product.objects.all(), empty_label="--- Please select a product ---")
-    quantity = forms.IntegerField(min_value=1, initial=1)
+class CustomerSelectionForm(forms.Form):
+    customer = forms.ModelChoiceField(queryset=Customer.objects.none(), empty_label="কাস্টমার নির্বাচন করুন")
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(CustomerSelectionForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['customer'].queryset = Customer.objects.filter(created_by=user)

@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator
 
 
 class Customer(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True, blank=True)
     phone = models.CharField(max_length=13, unique=True) # only mandatory
     email = models.EmailField(blank=True, null=True)  # Optional email field
     birth_date = models.DateField(blank=True, null=True)
@@ -70,8 +70,7 @@ class InvoiceItem(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def save(self, *args, **kwargs):
-        # Calculate total price based on product price and quantity
-        self.total_price = self.product.price * self.quantity
+        self.total_price = self.product.selling_price * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):
