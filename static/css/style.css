@@ -253,6 +253,7 @@ body {
 
 .card {
     height: 100%; /* Ensure each card occupies the full height of its parent container */
+    margin-bottom: 0.25rem;
 }
 
 .card-body {

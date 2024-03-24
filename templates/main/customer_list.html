@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-.btn {
+.btn_icon {
   border: none;
   background-color: inherit;
   padding: 5px 5px;
-  ont-size:36px
+  font-size: 36px;
   cursor: pointer;
   display: inline-block;
 }
 
-.btn:hover {
+.btn_icon:hover {
   background: #eee;
   color: green;
-  }
+}
 
 .success {color: black;}
 .info {color: dodgerblue;}
@@ -25,38 +25,40 @@
 .danger {color: red;}
 </style>
 
-<h1><button class="btn success" onclick="window.location.href='{% url 'create_customer' %}'" style="font-size:38px;">আমার কাস্টমার <i class="material-icons" style="font-size:30px;">add_circle</i></button> </h1>
+<h1><button class="btn_icon success" onclick="window.location.href='{% url 'create_customer' %}'">আমার কাস্টমার <i class="material-icons" style="font-size: 30px;">add_circle</i></button></h1>
 
 {% if customers %}
 <br>
 <table class="table">
   <thead>
     <tr>
-        <th scope="col">কাস্টমার আইডি</th>
-        <th scope="col">রেজিস্ট্রেশন তারিখ</th>
-        <th scope="col">কাস্টমারের ছবি</th>
-        <th scope="col">কাস্টমারের নাম</th>
-        <th scope="col">মোবাইল নম্বর</th>
-        <th scope="col">ইমেইল ঠিকানা</th>
-        <th scope="col">জন্ম তারিখ</th>
+      <th scope="col">কাস্টমার আইডি</th>
+      <th scope="col">রেজিস্ট্রেশন তারিখ</th>
+      <th scope="col">কাস্টমারের ছবি</th>
+      <th scope="col">কাস্টমারের নাম</th>
+      <th scope="col">মোবাইল নম্বর</th>
+      <th scope="col">ইমেইল ঠিকানা</th>
+      <th scope="col">জন্ম তারিখ</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
     {% for customer in customers %}
     <tr>
-        <td>{{ customer.id }}</td>
-        <td>{{ customer.created_at }}</td>
-        <td>
+      <td>{{ customer.id }}</td>
+      <td>{{ customer.created_at }}</td>
+      <td>
         {% if customer.img_url %}
-            <img src="{{ customer.img_url.url }}" class="img-fluid customer_img" alt="Customer Image">
+        <img src="{{ customer.img_url.url }}" class="img-fluid customer_img" alt="Customer Image">
         {% else %}
-            No image available
+        No image available
         {% endif %}
-        </td>
-        <td>{{ customer.name }}</td>
-        <td>{{ customer.phone }}</td>
-        <td>{{ customer.email }}</td>
-        <td>{{ customer.birth_date }}</td>
+      </td>
+      <td>{{ customer.name }}</td>
+      <td>{{ customer.phone }}</td>
+      <td>{{ customer.email }}</td>
+      <td>{{ customer.birth_date }}</td>
+      <td><button class="btn btn-danger delete-btn" data-customer-id="{{ customer.id }}">Delete</button></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -64,4 +66,36 @@
 {% else %}
 <p>{{ request.user.username }}, আপনার কোনো কাস্টমার পাওয়া যায়নি।</p>
 {% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    // AJAX request to delete a customer
+    $('.delete-btn').click(function() {
+        var customerId = $(this).data('customer-id');
+        if (confirm('আপনি কি এই কাস্টমার ডিলিট করার বিষয়ে নিশ্চিত?')) {
+            $.ajax({
+                url: '{% url "delete_customer" 0 %}'.replace('0', customerId),
+                type: 'POST',  // Change type to POST
+                beforeSend: function(xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  // Include CSRF token in the request header
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        // Reload the page after successful deletion
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
+});
+</script>
+
 {% endblock %}
