@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
+from django.forms.widgets import DateInput
 
 
 class RegisterForm(UserCreationForm):
@@ -68,6 +69,9 @@ class CustomerForm(forms.ModelForm):
             'birth_date': 'জন্ম তারিখ',
             'img_url': 'ছবি'
         }
+        widgets = {
+            'birth_date': DateInput(attrs={'type': 'date'})
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -84,6 +88,9 @@ class SupplierForm(forms.ModelForm):
             'email': 'ইমেইল',
             'birth_date': 'জন্ম তারিখ',
             'img_url': 'ছবি'
+        }
+        widgets = {
+            'birth_date': DateInput(attrs={'type': 'date'})
         }
 
     def __init__(self, *args, **kwargs):
