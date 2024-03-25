@@ -158,3 +158,5 @@ CORS_ALLOWED_ORIGINS = [
     "https://mangoitbd.com",
     # Add more origins if needed
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://erp.mangoitbd.com']
