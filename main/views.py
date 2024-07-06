@@ -353,3 +353,15 @@ def update_stock(request, stock_id):
         return JsonResponse({'message': 'Stock item updated successfully'})
 
     # Handle other HTTP methods if needed
+
+
+@csrf_protect
+@login_required(login_url='/login')
+def expenditure(request):
+    expenditures = Expenditure.objects.all().order_by('expense_date')
+    total = sum(e.expense_amount for e in expenditures)
+    context = {
+        'expenditures': expenditures,
+        'total': total
+    }
+    return render(request, 'expenditure.html', context)

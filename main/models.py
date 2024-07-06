@@ -75,3 +75,20 @@ class InvoiceItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} - {self.product.title} - {self.total_price}"
+
+
+class Expenditure(models.Model):
+    expense_id = models.PositiveIntegerField(primary_key=True, auto_created=True, unique=True)
+    expense_type = models.CharField(max_length=20)
+    expense_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    expense_date = models.DateField(auto_now_add=True)
+    voucher_no = models.CharField(max_length=20)
+    total_expense = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    notes = models.TextField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        self.total_expense = self.expense_amount
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Total Expense is {self.total_expense} taka upto {self.expense_date}"

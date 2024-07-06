@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Expense</title>
+</head>
+<body>
+    <h1>Expenditure</h1>
+      <table>
+        <tr>
+          <th>Expense ID</th>
+          <th>Expense Type</th>
+          <th>Expense Amount</th>
+          <th>Expense Date</th>
+          <th>Voucher No</th>
+          <th>Notes</th>
+        </tr>
+        {% for expenditure in expenditures %}
+        <tr>
+          <td>{{ expenditure.id }}</td>
+          <td>{{ expenditure.expense_type }}</td>
+          <td>{{ expenditure.expense_amount }}</td>
+          <td>{{ expenditure.expense_date.strftime('%Y-%m-%d') }}</td>  <td>{{ expenditure.voucher_no }}</td>
+          <td>{{ expenditure.notes }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p>Total Expense: {{ total_expense }}</p>
+</body>
+</html>

@@ -22,4 +22,5 @@ urlpatterns = [
     path('mystock',views.mystock, name = 'mystock'),
     path('delete_stock/<int:stock_id>', views.delete_stock, name='delete_stock'),
     path('update_stock/<int:stock_id>/', views.update_stock, name='update_stock'),
+    path('expense/', views.expenditure, name='expense')
 ]
